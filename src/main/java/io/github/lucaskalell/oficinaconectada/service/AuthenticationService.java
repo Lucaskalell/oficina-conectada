@@ -1,21 +1,28 @@
 package io.github.lucaskalell.oficinaconectada.service;
 
-
+import io.github.lucaskalell.oficinaconectada.dto.LoginRequestDTO;
+import io.github.lucaskalell.oficinaconectada.dto.LoginResponseDTO;
 import io.github.lucaskalell.oficinaconectada.dto.RegisterRequestDTO;
 import io.github.lucaskalell.oficinaconectada.entity.Usuario;
 import io.github.lucaskalell.oficinaconectada.repository.UsuarioRepository;
+import io.github.lucaskalell.oficinaconectada.security.JwtService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
+
     private final UsuarioRepository usuarioRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
+    private final AuthenticationManager authenticationManager;
 
 
-    public Usuario register(RegisterRequestDTO request){
+    public Usuario register(RegisterRequestDTO request) {
         Usuario usuario = Usuario.builder()
                 .nome(request.getNome())
                 .email(request.getEmail())
@@ -23,4 +30,24 @@ public class AuthenticationService {
                 .build();
         return usuarioRepository.save(usuario);
     }
+
+    public LoginResponseDTO login(LoginRequestDTO request) {
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        request.getEmail(),
+                        request.getSenha()
+                )
+        );
+
+        var usuario = usuarioRepository.findByEmail(request.getEmail())
+                .orElseThrow();
+
+
+        var jwtToken = jwtService.generateToken(usuario);
+
+        return LoginResponseDTO.builder()
+                .token(jwtToken)
+                .build();
+    }
 }
+
