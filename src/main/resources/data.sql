@@ -41,3 +41,51 @@ VALUES (3, 'Amortecedor Dianteiro Cofap GP30111 Gol G5', 'Par Amortecedor Diante
 
 INSERT IGNORE INTO produtos (id, nome, descricao, preco_custo, preco_venda, quantidade_em_estoque, subcategoria_id)
 VALUES (4, 'Óleo de Motor 5W40 Sintético Castrol', 'Óleo Castrol Magnatec 5W40 (1 Litro)', 45.00, 79.90, 50, 14);
+
+INSERT IGNORE INTO produtos (id, nome, descricao, preco_custo, preco_venda, quantidade_em_estoque, subcategoria_id)
+VALUES (5, 'Coxim do Amortecedor Dianteiro Axios Gol G5', 'Kit Coxim e Rolamento do Amortecedor Dianteiro (044.1456)', 60.00, 119.90, 20, 2);
+
+INSERT IGNORE INTO produtos (id, nome, descricao, preco_custo, preco_venda, quantidade_em_estoque, subcategoria_id)
+VALUES (6, 'Mola Helicoidal Traseira Fabrini Gol G5', 'Par de Molas Traseiras (VW0268)', 150.00, 279.90, 12, 3);
+
+INSERT IGNORE INTO produtos (id, nome, descricao, preco_custo, preco_venda, quantidade_em_estoque, subcategoria_id)
+VALUES (7, 'Kit Batente e Coifa Amortecedor Dianteiro Gol G5', 'Kit com 2 Batentes e 2 Coifas para amortecedor dianteiro', 35.00, 69.90, 30, 4);
+
+INSERT IGNORE INTO produtos (id, nome, descricao, preco_custo, preco_venda, quantidade_em_estoque, subcategoria_id)
+VALUES (8, 'Bieleta da Barra Estabilizadora Nakata Gol G5', 'Bieleta Dianteira (N 93013)', 40.00, 75.00, 25, 5);
+
+INSERT IGNORE INTO produtos (id, nome, descricao, preco_custo, preco_venda, quantidade_em_estoque, subcategoria_id)
+VALUES (9, 'Disco de Freio Dianteiro Fremax VW Gol G5', 'Par de Discos de Freio Ventilado Dianteiro (BD4733)', 180.00, 329.90, 10, 7);
+
+INSERT IGNORE INTO produtos (id, nome, descricao, preco_custo, preco_venda, quantidade_em_estoque, subcategoria_id)
+VALUES (10, 'Tambor de Freio Traseiro Fremax Gol G5', 'Par de Tambores de Freio Traseiro (BD4744)', 160.00, 299.90, 8, 8);
+
+INSERT IGNORE INTO produtos (id, nome, descricao, preco_custo, preco_venda, quantidade_em_estoque, subcategoria_id)
+VALUES (11, 'Lona de Freio Traseira Fras-le Gol G5', 'Jogo de Lonas de Freio com Haste (VW/252-CPA)', 70.00, 139.90, 15, 9);
+
+INSERT IGNORE INTO produtos (id, nome, descricao, preco_custo, preco_venda, quantidade_em_estoque, subcategoria_id)
+VALUES (12, 'Jogo de Juntas do Motor Sabó Gol 1.6', 'Jogo de Juntas Completo com Retentores (79522FLEX)', 250.00, 450.00, 5, 10);
+
+INSERT IGNORE INTO produtos (id, nome, descricao, preco_custo, preco_venda, quantidade_em_estoque, subcategoria_id)
+VALUES (13, 'Jogo de Pistões com Anéis Metal Leve Gol 1.6', 'Jogo de Pistões e Anéis para 4 cilindros (PA9123)', 400.00, 750.00, 4, 11);
+
+INSERT IGNORE INTO produtos (id, nome, descricao, preco_custo, preco_venda, quantidade_em_estoque, subcategoria_id)
+VALUES (14, 'Jogo de Bielas Motor AP 1.6', 'Jogo com 4 bielas forjadas para motor AP', 800.00, 1500.00, 2, 12);
+
+INSERT IGNORE INTO produtos (id, nome, descricao, preco_custo, preco_venda, quantidade_em_estoque, subcategoria_id)
+VALUES (15, 'Jogo de Anéis de Segmento Mahle Gol 1.6', 'Jogo de anéis para retífica de motor (A25120)', 120.00, 220.00, 10, 13);
+
+INSERT IGNORE INTO produtos (id, nome, descricao, preco_custo, preco_venda, quantidade_em_estoque, subcategoria_id)
+VALUES (16, 'Óleo de Freio DOT 4 Varga', 'Fluido de Freio DOT 4 (500ml)', 15.00, 29.90, 40, 15);
+
+INSERT IGNORE INTO produtos (id, nome, descricao, preco_custo, preco_venda, quantidade_em_estoque, subcategoria_id)
+VALUES (17, 'Óleo de Direção Hidráulica ATF Tutela', 'Fluido para Direção Hidráulica (1 Litro)', 30.00, 59.90, 30, 16);
+
+INSERT IGNORE INTO produtos (id, nome, descricao, preco_custo, preco_venda, quantidade_em_estoque, subcategoria_id)
+VALUES (18, 'Filtro de Ar do Motor Mann-Filter Gol G5', 'Filtro de Ar do Motor (C 2969)', 25.00, 49.90, 50, 17);
+
+INSERT IGNORE INTO produtos (id, nome, descricao, preco_custo, preco_venda, quantidade_em_estoque, subcategoria_id)
+VALUES (19, 'Serviço de Alinhamento 3D', 'Alinhamento computadorizado 3D para veículos de passeio', 50.00, 100.00, 999, 18);
+
+INSERT IGNORE INTO produtos (id, nome, descricao, preco_custo, preco_venda, quantidade_em_estoque, subcategoria_id)
+VALUES (20, 'Serviço de Balanceamento', 'Balanceamento de rodas com chumbo adesivado', 15.00, 30.00, 999, 19);

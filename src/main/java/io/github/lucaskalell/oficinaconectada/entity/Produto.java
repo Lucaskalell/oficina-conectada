@@ -1,6 +1,6 @@
 package io.github.lucaskalell.oficinaconectada.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -37,6 +37,6 @@ public class Produto {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "subcategoria_id", nullable = false)
-    @JsonIgnoreProperties("produtos") // Evita loops infinitos
+    @JsonIgnore
     private SubCategoria subCategoria;
 }
