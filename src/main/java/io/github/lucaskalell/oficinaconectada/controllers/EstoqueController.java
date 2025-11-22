@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -53,5 +54,41 @@ public class EstoqueController {
     ) {
         List<Produto> produtos = estoqueService.buscarProdutosPorNome(nome);
         return ResponseEntity.ok(produtos);
+    }
+
+    @PostMapping("/categorias")
+    public ResponseEntity<Categoria> criarCategoria(@RequestBody Categoria categoria) {
+        Categoria novaCategoria = estoqueService.criarCategoria(categoria);
+        return ResponseEntity.created(URI.create("/estoque/categorias/" + novaCategoria.getId())).body(novaCategoria);
+    }
+
+    @PostMapping("/categorias/{categoriaId}/subcategorias")
+    public ResponseEntity<SubCategoria> criarSubCategoria(@RequestBody SubCategoria subCategoria, @PathVariable Long categoriaId) {
+        SubCategoria novaSubCategoria = estoqueService.criarSubCategoria(subCategoria, categoriaId);
+        return ResponseEntity.created(URI.create("/estoque/subcategorias/" + novaSubCategoria.getId())).body(novaSubCategoria);
+    }
+
+    @PostMapping("/subcategorias/{subCategoriaId}/produtos")
+    public ResponseEntity<Produto> criarProduto(@RequestBody Produto produto, @PathVariable Long subCategoriaId) {
+        Produto novoProduto = estoqueService.criarProduto(produto, subCategoriaId);
+        return ResponseEntity.created(URI.create("/estoque/produtos/" + novoProduto.getId())).body(novoProduto);
+    }
+
+    @DeleteMapping("/categorias/{id}")
+    public ResponseEntity<Void> deletarCategoria(@PathVariable Long id) {
+        estoqueService.deletarCategoria(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/subcategorias/{id}")
+    public ResponseEntity<Void> deletarSubCategoria(@PathVariable Long id) {
+        estoqueService.deletarSubCategoria(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/produtos/{id}")
+    public ResponseEntity<Void> deletarProduto(@PathVariable Long id) {
+        estoqueService.deletarProduto(id);
+        return ResponseEntity.noContent().build();
     }
 }
