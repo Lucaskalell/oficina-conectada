@@ -1,6 +1,7 @@
 package io.github.lucaskalell.oficinaconectada.controllers;
 
 
+import io.github.lucaskalell.oficinaconectada.dto.EstoqueResumoDTO;
 import io.github.lucaskalell.oficinaconectada.entity.Categoria;
 import io.github.lucaskalell.oficinaconectada.entity.Produto;
 import io.github.lucaskalell.oficinaconectada.entity.SubCategoria;
@@ -18,6 +19,12 @@ import java.util.List;
 public class EstoqueController {
     private final EstoqueService estoqueService;
 
+
+    @GetMapping("/resumo")
+    public ResponseEntity<EstoqueResumoDTO> getEstoqueResumo() {
+        EstoqueResumoDTO resumo = estoqueService.getEstoqueResumo();
+        return ResponseEntity.ok(resumo);
+    }
 
     @GetMapping("/categorias")
     public ResponseEntity<List<Categoria>> getTodasCategorias(){
@@ -72,6 +79,24 @@ public class EstoqueController {
     public ResponseEntity<Produto> criarProduto(@RequestBody Produto produto, @PathVariable Long subCategoriaId) {
         Produto novoProduto = estoqueService.criarProduto(produto, subCategoriaId);
         return ResponseEntity.created(URI.create("/estoque/produtos/" + novoProduto.getId())).body(novoProduto);
+    }
+
+    @PutMapping("/categorias/{id}")
+    public ResponseEntity<Categoria> atualizarCategoria(@PathVariable Long id, @RequestBody Categoria categoriaDetails) {
+        Categoria categoriaAtualizada = estoqueService.atualizarCategoria(id, categoriaDetails);
+        return ResponseEntity.ok(categoriaAtualizada);
+    }
+
+    @PutMapping("/subcategorias/{id}")
+    public ResponseEntity<SubCategoria> atualizarSubCategoria(@PathVariable Long id, @RequestBody SubCategoria subCategoriaDetails) {
+        SubCategoria subCategoriaAtualizada = estoqueService.atualizarSubCategoria(id, subCategoriaDetails);
+        return ResponseEntity.ok(subCategoriaAtualizada);
+    }
+
+    @PutMapping("/produtos/{id}")
+    public ResponseEntity<Produto> atualizarProduto(@PathVariable Long id, @RequestBody Produto produtoDetails) {
+        Produto produtoAtualizado = estoqueService.atualizarProduto(id, produtoDetails);
+        return ResponseEntity.ok(produtoAtualizado);
     }
 
     @DeleteMapping("/categorias/{id}")

@@ -32,7 +32,6 @@ public class AuthenticationController {
                 .email(usuarioRegistrado.getEmail())
                 .build();
 
-        // Retorna 201 Created
         return ResponseEntity.status(201).body(responseDto);
     }
 
