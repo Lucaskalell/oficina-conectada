@@ -89,3 +89,26 @@ VALUES (19, 'Serviço de Alinhamento 3D', 'Alinhamento computadorizado 3D para v
 
 INSERT IGNORE INTO produtos (id, nome, descricao, preco_custo, preco_venda, quantidade_em_estoque, subcategoria_id)
 VALUES (20, 'Serviço de Balanceamento', 'Balanceamento de rodas com chumbo adesivado', 15.00, 30.00, 999, 19);
+
+
+INSERT IGNORE INTO clientes (id, nome, email, telefone)
+VALUES (1, 'Giyu Tomioka', 'giyu@email.com', '41999999999');
+
+INSERT IGNORE INTO carros (id, modelo, placa, ano, marca, cliente_id)
+VALUES (1, 'Lancer Evolution', 'ABC-1234', 2015, 'Mitsubishi', 1);
+
+INSERT IGNORE INTO ordens_de_servico (id,status,defeito,descricao_servico,data_entrada,data_saida,valor_total,cliente_id,carro_id)
+VALUES ( 1,'EM_ANDAMENTO','Pneu Furado','Troca de pneu dianteiro','2025-01-10 10:00:00',NULL,300.00,1,1);
+
+
+
+INSERT IGNORE INTO clientes (id, nome, email, telefone)
+VALUES (2, 'Tanjiro Kamado', 'kamadinho@gmail.com', '41988888888');
+
+
+INSERT IGNORE INTO carros (id, modelo, placa, ano, marca, cliente_id)
+VALUES (2, 'Gtr-35', 'ABC-9999', 2015, 'Nissan', 2);
+
+
+INSERT IGNORE INTO ordens_de_servico (id,status,defeito,descricao_servico,data_entrada,data_saida,valor_total,cliente_id,carro_id)
+VALUES ( 2,'FINALIZADO','Pastilha De Freio ','Troca do jogo de pastilha D,T','2025-01-11 10:00:00','2025-01-11 12:00:00',900.00,2,2);
