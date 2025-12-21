@@ -1,11 +1,11 @@
 package io.github.lucaskalell.oficinaconectada.controllers;
 
+import io.github.lucaskalell.oficinaconectada.dto.CriarOrdemDeServicoRequest;
 import io.github.lucaskalell.oficinaconectada.dto.OrdemDeServicoDTO;
 import io.github.lucaskalell.oficinaconectada.service.OrdemDeServicoService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,5 +21,11 @@ public class OrdemDeServicoController {
     @GetMapping("/resumo")
     public ResponseEntity<List<OrdemDeServicoDTO>> getResumo() {
         return ResponseEntity.ok(ordemDeServicoService.listarResumo());
+    }
+
+    @PostMapping("/criarOrdemDeServico")
+    public ResponseEntity<OrdemDeServicoDTO> criarOrdemDeServico(@RequestBody CriarOrdemDeServicoRequest request) {
+        OrdemDeServicoDTO novaOrdem = ordemDeServicoService.criar(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(novaOrdem);
     }
 }
