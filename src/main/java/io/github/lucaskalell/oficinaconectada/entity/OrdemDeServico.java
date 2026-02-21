@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -40,6 +41,8 @@ public class OrdemDeServico {
     @Column
     private BigDecimal valorTotal;
 
+    @Column
+    private BigDecimal valorSubtotalPecas;
 
     @ManyToOne
     @JoinColumn(name = "cliente_id", nullable = false)
@@ -51,5 +54,9 @@ public class OrdemDeServico {
     @JsonIgnore
     private Carro carro;
 
+    @OneToMany(mappedBy = "ordemDeServico", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ItemServico> itens;
 
+    @OneToMany(mappedBy = "ordemDeServico", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<FotoOrdemDeServico> fotos;
 }

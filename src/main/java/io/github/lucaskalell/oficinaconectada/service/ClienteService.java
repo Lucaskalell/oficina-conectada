@@ -1,8 +1,11 @@
 package io.github.lucaskalell.oficinaconectada.service;
 
+import io.github.lucaskalell.oficinaconectada.dto.CarroDTO;
 import io.github.lucaskalell.oficinaconectada.dto.ClienteCarroRequestDTO;
+import io.github.lucaskalell.oficinaconectada.dto.ClienteDTO;
 import io.github.lucaskalell.oficinaconectada.entity.Carro;
 import io.github.lucaskalell.oficinaconectada.entity.Cliente;
+import io.github.lucaskalell.oficinaconectada.exception.ClienteNaoEncontradoException;
 import io.github.lucaskalell.oficinaconectada.repository.CarroRepository;
 import io.github.lucaskalell.oficinaconectada.repository.ClienteRepository;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -20,13 +24,12 @@ public class ClienteService {
     private final CarroRepository carroRepository;
 
     @Transactional
-    public Cliente criarClienteComCarro(ClienteCarroRequestDTO dto) {
+    public ClienteDTO criarClienteComCarro(ClienteCarroRequestDTO dto) {
         Cliente cliente = new Cliente();
         cliente.setNome(dto.getNome());
         cliente.setCpf(dto.getCpf());
         cliente.setTelefone(dto.getTelefone());
         cliente.setEmail(dto.getEmail());
-
         Cliente clienteSalvo = clienteRepository.save(cliente);
 
         if (dto.getPlaca() != null && !dto.getPlaca().isEmpty()) {
@@ -40,38 +43,105 @@ public class ClienteService {
 
             carroRepository.save(carro);
         }
-
-        return clienteSalvo;
+        return new ClienteDTO(
+                clienteSalvo.getId(),
+                clienteSalvo.getNome(),
+                clienteSalvo.getCpf(),
+                clienteSalvo.getTelefone(),
+                clienteSalvo.getEmail()
+        );
     }
 
 
-    public Cliente criarCliente(Cliente cliente) {
-        return clienteRepository.save(cliente);
+    public ClienteDTO criarCliente(ClienteDTO clienteDTO) {
+        Cliente cliente = new Cliente();
+        cliente.setNome(clienteDTO.getNome());
+        cliente.setCpf(clienteDTO.getCpf());
+        cliente.setTelefone(clienteDTO.getTelefone());
+        cliente.setEmail(clienteDTO.getEmail());
+        Cliente clienteSalvo = clienteRepository.save(cliente);
+        return new ClienteDTO(
+                clienteSalvo.getId(),
+                clienteSalvo.getNome(),
+                clienteSalvo.getCpf(),
+                clienteSalvo.getTelefone(),
+                clienteSalvo.getEmail()
+        );
     }
 
-    public List<Cliente> listarTodosClientes() {
-        return clienteRepository.findAll();
+    public List<ClienteDTO> listarTodosClientes() {
+        return clienteRepository.findAll().stream()
+                .map(cliente -> new ClienteDTO(
+                        cliente.getId(),
+                        cliente.getNome(),
+                        cliente.getCpf(),
+                        cliente.getTelefone(),
+                        cliente.getEmail()
+                ))
+                .collect(Collectors.toList());
     }
 
-    public Optional<Cliente> buscarClientePorId(Long id) {
-        return clienteRepository.findById(id);
+
+    public ClienteDTO buscarClientePorId(Long id) {
+        Cliente cliente = clienteRepository.findById(id)
+                .orElseThrow(() -> new ClienteNaoEncontradoException
+                        ("Cliente não encontrado com o ID: " + id));
+        return new ClienteDTO(
+                cliente.getId(),
+                cliente.getNome(),
+                cliente.getCpf(),
+                cliente.getTelefone(),
+                cliente.getEmail()
+        );
     }
 
-    public Cliente atualizarCliente(Long id, Cliente clienteAtualizado) {
+    public ClienteDTO buscarClienteECarroCompletoPorId(Long id) {
+        Cliente cliente = clienteRepository.findById(id)
+                .orElseThrow(() -> new ClienteNaoEncontradoException
+                        ("Cliente não encontrado com o ID: " + id));
+
+        List<CarroDTO> carrosDTO = cliente.getCarros().stream()
+                .map(carro -> new CarroDTO(
+                        carro.getId(),
+                        carro.getPlaca(),
+                        carro.getModelo(),
+                        carro.getAno(),
+                        carro.getCor()
+                ))
+                .collect(Collectors.toList());
+
+        return new ClienteDTO(
+                cliente.getId(),
+                cliente.getNome(),
+                cliente.getCpf(),
+                cliente.getTelefone(),
+                cliente.getEmail(),
+                carrosDTO
+        );
+    }
+
+    public ClienteDTO atualizarCliente(Long id, ClienteDTO clienteAtualizado) {
         return clienteRepository.findById(id)
                 .map(cliente -> {
                     cliente.setNome(clienteAtualizado.getNome());
                     cliente.setCpf(clienteAtualizado.getCpf());
                     cliente.setEmail(clienteAtualizado.getEmail());
                     cliente.setTelefone(clienteAtualizado.getTelefone());
-                    return clienteRepository.save(cliente);
+                    Cliente clienteSalvo = clienteRepository.save(cliente);
+                    return new ClienteDTO(
+                            clienteSalvo.getId(),
+                            clienteSalvo.getNome(),
+                            clienteSalvo.getCpf(),
+                            clienteSalvo.getTelefone(),
+                            clienteSalvo.getEmail()
+                    );
                 })
-                .orElseThrow(() -> new RuntimeException("Cliente não encontrado com o ID: " + id));
+                .orElseThrow(() -> new ClienteNaoEncontradoException("Cliente não encontrado com o ID: " + id));
     }
 
     public void deletarCliente(Long id) {
         if (!clienteRepository.existsById(id)) {
-            throw new RuntimeException("Cliente não encontrado com o ID: " + id);
+            throw new ClienteNaoEncontradoException("Cliente não encontrado com o ID: " + id);
         }
         clienteRepository.deleteById(id);
     }

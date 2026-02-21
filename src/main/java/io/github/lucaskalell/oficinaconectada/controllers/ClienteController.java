@@ -1,7 +1,7 @@
 package io.github.lucaskalell.oficinaconectada.controllers;
 
 import io.github.lucaskalell.oficinaconectada.dto.ClienteCarroRequestDTO;
-import io.github.lucaskalell.oficinaconectada.entity.Cliente;
+import io.github.lucaskalell.oficinaconectada.dto.ClienteDTO;
 import io.github.lucaskalell.oficinaconectada.service.ClienteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,34 +18,39 @@ public class ClienteController {
     private final ClienteService clienteService;
 
     @PostMapping("/completo")
-    public ResponseEntity<Cliente> criarClienteComCarro(@RequestBody ClienteCarroRequestDTO dto) {
-        Cliente novoCliente = clienteService.criarClienteComCarro(dto);
+    public ResponseEntity<ClienteDTO> criarClienteComCarro(@RequestBody ClienteCarroRequestDTO dto) {
+        ClienteDTO novoCliente = clienteService.criarClienteComCarro(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(novoCliente);
     }
 
 
     @PostMapping
-    public ResponseEntity<Cliente> criarCliente(@RequestBody Cliente cliente) {
-        Cliente novoCliente = clienteService.criarCliente(cliente);
+    public ResponseEntity<ClienteDTO> criarCliente(@RequestBody ClienteDTO clienteDTO) {
+        ClienteDTO novoCliente = clienteService.criarCliente(clienteDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(novoCliente);
     }
 
     @GetMapping
-    public ResponseEntity<List<Cliente>> listarTodosClientes() {
-        List<Cliente> clientes = clienteService.listarTodosClientes();
+    public ResponseEntity<List<ClienteDTO>> listarTodosClientes() {
+        List<ClienteDTO> clientes = clienteService.listarTodosClientes();
         return ResponseEntity.ok(clientes);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Cliente> buscarClientePorId(@PathVariable Long id) {
-        return clienteService.buscarClientePorId(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<ClienteDTO> buscarClientePorId(@PathVariable Long id) {
+        ClienteDTO clientes = clienteService.buscarClientePorId(id);
+        return ResponseEntity.ok(clientes);
+    }
+
+    @GetMapping("/{id}/completo")
+    public ResponseEntity<ClienteDTO> buscarClienteECarroCompletoPorId(@PathVariable Long id) {
+        ClienteDTO cliente = clienteService.buscarClienteECarroCompletoPorId(id);
+        return ResponseEntity.ok(cliente);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Cliente> atualizarCliente(@PathVariable Long id, @RequestBody Cliente clienteAtualizado) {
-        Cliente cliente = clienteService.atualizarCliente(id, clienteAtualizado);
+    public ResponseEntity<ClienteDTO> atualizarCliente(@PathVariable Long id, @RequestBody ClienteDTO clienteAtualizado) {
+        ClienteDTO cliente = clienteService.atualizarCliente(id, clienteAtualizado);
         return ResponseEntity.ok(cliente);
     }
 

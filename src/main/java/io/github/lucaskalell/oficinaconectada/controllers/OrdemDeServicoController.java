@@ -1,5 +1,6 @@
 package io.github.lucaskalell.oficinaconectada.controllers;
 
+import io.github.lucaskalell.oficinaconectada.dto.CarroDTO;
 import io.github.lucaskalell.oficinaconectada.dto.CriarOrdemDeServicoRequest;
 import io.github.lucaskalell.oficinaconectada.dto.OrdemDeServicoDTO;
 import io.github.lucaskalell.oficinaconectada.service.OrdemDeServicoService;

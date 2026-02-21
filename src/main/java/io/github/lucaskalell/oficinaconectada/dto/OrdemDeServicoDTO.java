@@ -5,6 +5,7 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -18,6 +19,9 @@ public class OrdemDeServicoDTO {
     private String defeito;
     private String descricaoServico;
     private BigDecimal valorTotal;
+    private BigDecimal valorSubtotalPecas;
+    private List<ItemServicoDTO> itens;
+    private List<FotoOrdemDeServicoDTO> fotos;
 
     public OrdemDeServicoDTO(
             Long id,
@@ -28,7 +32,10 @@ public class OrdemDeServicoDTO {
             LocalDateTime dataEntrada,
             String defeito,
             String descricaoServico,
-            BigDecimal valorTotal
+            BigDecimal valorTotal,
+            BigDecimal valorSubtotalPecas,
+            List<ItemServicoDTO> itens,
+            List<FotoOrdemDeServicoDTO> fotos
     ) {
         this.id = id;
         this.status = status;
@@ -39,6 +46,9 @@ public class OrdemDeServicoDTO {
         this.defeito = defeito;
         this.descricaoServico = descricaoServico;
         this.valorTotal = valorTotal;
+        this.valorSubtotalPecas = valorSubtotalPecas;
+        this.itens = itens;
+        this.fotos = fotos;
     }
 
 }
