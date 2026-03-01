@@ -6,6 +6,7 @@ import io.github.lucaskalell.oficinaconectada.dto.ClienteDTO;
 import io.github.lucaskalell.oficinaconectada.entity.Carro;
 import io.github.lucaskalell.oficinaconectada.entity.Cliente;
 import io.github.lucaskalell.oficinaconectada.exception.ClienteNaoEncontradoException;
+import io.github.lucaskalell.oficinaconectada.mapper.ClienteMapper;
 import io.github.lucaskalell.oficinaconectada.repository.CarroRepository;
 import io.github.lucaskalell.oficinaconectada.repository.ClienteRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,8 @@ public class ClienteService {
 
     private final ClienteRepository clienteRepository;
     private final CarroRepository carroRepository;
+    private final ClienteMapper ClienteMapper;
+
 
     @Transactional
     public ClienteDTO criarClienteComCarro(ClienteCarroRequestDTO dto) {
@@ -96,28 +99,9 @@ public class ClienteService {
     }
 
     public ClienteDTO buscarClienteECarroCompletoPorId(Long id) {
-        Cliente cliente = clienteRepository.findById(id)
-                .orElseThrow(() -> new ClienteNaoEncontradoException
-                        ("Cliente não encontrado com o ID: " + id));
-
-        List<CarroDTO> carrosDTO = cliente.getCarros().stream()
-                .map(carro -> new CarroDTO(
-                        carro.getId(),
-                        carro.getPlaca(),
-                        carro.getModelo(),
-                        carro.getAno(),
-                        carro.getCor()
-                ))
-                .collect(Collectors.toList());
-
-        return new ClienteDTO(
-                cliente.getId(),
-                cliente.getNome(),
-                cliente.getCpf(),
-                cliente.getTelefone(),
-                cliente.getEmail(),
-                carrosDTO
-        );
+        Cliente cliente = clienteRepository.findWithCarrosByIdQuery(id)
+                .orElseThrow(() -> new ClienteNaoEncontradoException("Cliente não encontrado com o ID: " + id));
+        return ClienteMapper.toDto(cliente);
     }
 
     public ClienteDTO atualizarCliente(Long id, ClienteDTO clienteAtualizado) {
