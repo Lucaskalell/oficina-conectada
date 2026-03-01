@@ -23,6 +23,8 @@ public class ClienteService {
 
     private final ClienteRepository clienteRepository;
     private final CarroRepository carroRepository;
+    private final ClienteMapper ClienteMapper;
+
 
     @Transactional
     public ClienteDTO criarClienteComCarro(ClienteCarroRequestDTO dto) {
