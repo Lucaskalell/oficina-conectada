@@ -36,6 +36,12 @@ public class ClienteController {
         return ResponseEntity.ok(clientes);
     }
 
+    @GetMapping("/simplesMasComCarro")
+    public ResponseEntity<List<ClienteDTO>> listarTodosClientesComCarro() {
+        List<ClienteDTO> clientes = clienteService.listarTodosClientesComCarro();
+        return ResponseEntity.ok(clientes);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<ClienteDTO> buscarClientePorId(@PathVariable Long id) {
         ClienteDTO clientes = clienteService.buscarClientePorId(id);

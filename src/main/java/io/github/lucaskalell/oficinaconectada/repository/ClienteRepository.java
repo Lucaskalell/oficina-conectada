@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -23,4 +24,7 @@ public interface ClienteRepository extends JpaRepository<Cliente, Long> {
     //para fins de estudo começarei adicona JPQL mesma forma que utilizo na empresa
     @Query("SELECT c FROM Cliente c LEFT JOIN FETCH c.carros WHERE c.id = :id")
     Optional<Cliente> findWithCarrosByIdQuery(@Param("id") Long id);
+
+    @Query("SELECT DISTINCT c FROM Cliente c LEFT JOIN FETCH c.carros")
+    List<Cliente> findAllWithCarros();
 }

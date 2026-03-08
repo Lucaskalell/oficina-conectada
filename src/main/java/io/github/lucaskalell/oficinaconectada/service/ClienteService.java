@@ -84,6 +84,34 @@ public class ClienteService {
                 .collect(Collectors.toList());
     }
 
+    public List<ClienteDTO> listarTodosClientesComCarro() {
+        return clienteRepository.findAllWithCarros().stream()
+                .map(cliente -> {
+                    ClienteDTO dto = new ClienteDTO(
+                            cliente.getId(),
+                            cliente.getNome(),
+                            cliente.getCpf(),
+                            cliente.getTelefone(),
+                            cliente.getEmail()
+                    );
+                    if (cliente.getCarros() != null && !cliente.getCarros().isEmpty()) {
+                        List<CarroDTO> carrosDto = cliente.getCarros().stream()
+                                .map(carro -> {
+                                    CarroDTO cDto = new CarroDTO();
+                                    cDto.setId(carro.getId());
+                                    cDto.setPlaca(carro.getPlaca());
+                                    cDto.setModelo(carro.getModelo());
+                                    cDto.setAno(carro.getAno());
+                                    return cDto;
+                                })
+                                .collect(Collectors.toList());
+
+                        dto.setCarros(carrosDto);
+                    }
+                    return dto;
+                })
+                .collect(Collectors.toList());
+    }
 
     public ClienteDTO buscarClientePorId(Long id) {
         Cliente cliente = clienteRepository.findById(id)

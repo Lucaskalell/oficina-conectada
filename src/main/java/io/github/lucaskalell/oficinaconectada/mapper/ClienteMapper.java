@@ -34,7 +34,9 @@ public  class ClienteMapper {
                 carro.getPlaca(),
                 carro.getModelo(),
                 carro.getAno(),
-                carro.getCor()
+                carro.getCor(),
+                carro.getCliente().getId(),
+                carro.getCliente().getNome()
         );
     }
 }
