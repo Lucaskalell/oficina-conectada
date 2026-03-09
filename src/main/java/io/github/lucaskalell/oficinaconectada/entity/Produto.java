@@ -29,6 +29,9 @@ public class Produto {
     private int quantidadeEmEstoque;
 
     @Column(nullable = false)
+    private int quantidadeMinima;
+
+    @Column(nullable = false)
     private BigDecimal precoCusto;
 
     @Column(nullable = false)
