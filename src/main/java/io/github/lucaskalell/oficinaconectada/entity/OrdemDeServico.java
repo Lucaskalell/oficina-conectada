@@ -2,6 +2,7 @@ package io.github.lucaskalell.oficinaconectada.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.github.lucaskalell.oficinaconectada.status.PrioridadeOrdem;
 import io.github.lucaskalell.oficinaconectada.status.StatusOrdemDeServico;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -43,6 +44,12 @@ public class OrdemDeServico {
 
     @Column
     private BigDecimal valorSubtotalPecas;
+
+    @Enumerated(EnumType.STRING)
+    private PrioridadeOrdem prioridade = PrioridadeOrdem.MEDIA;
+
+    @Column(name = "mecanico_responsavel")
+    private String mecanicoResponsavel;
 
     @ManyToOne
     @JoinColumn(name = "cliente_id", nullable = false)

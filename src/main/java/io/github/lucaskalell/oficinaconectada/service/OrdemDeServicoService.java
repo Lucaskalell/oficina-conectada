@@ -74,7 +74,9 @@ public class OrdemDeServicoService {
                             os.getValorTotal(),
                             os.getValorSubtotalPecas(),
                             itensDTO,
-                            fotosDTO
+                            fotosDTO,
+                            os.getMecanicoResponsavel(),
+                            os.getPrioridade()
                     )
             );
         }
@@ -154,7 +156,9 @@ public class OrdemDeServicoService {
                 ordemSalva.getValorTotal(),
                 ordemSalva.getValorSubtotalPecas(),
                 itensDTO,
-                fotosDTO
+                fotosDTO,
+                ordemSalva.getMecanicoResponsavel(),
+                ordemSalva.getPrioridade()
         );
 
     }
