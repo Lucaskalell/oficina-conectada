@@ -18,14 +18,13 @@ public class VendaController {
     private final VendaService vendaService;
 
     @GetMapping
-    public ResponseEntity<List<Venda>> getTodasVendas() {
-        List<Venda> vendas = vendaService.listarTodasVendas();
-        return ResponseEntity.ok(vendas);
+    public ResponseEntity<List<Venda>> listarTodas() {
+        return ResponseEntity.ok(vendaService.listarTodasVendas());
     }
 
     @PostMapping
-    public ResponseEntity<Venda> criarVenda(@RequestBody VendaRequestDTO vendaRequest) {
-        Venda novaVenda = vendaService.criarVenda(vendaRequest);
+    public ResponseEntity<Venda> criar(@RequestBody VendaRequestDTO requisicao) {
+        Venda novaVenda = vendaService.criarVenda(requisicao);
         return ResponseEntity.created(URI.create("/vendas/" + novaVenda.getId())).body(novaVenda);
     }
 }

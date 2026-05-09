@@ -11,7 +11,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
-
 @NonNullApi
 @Repository
 public interface ClienteRepository extends JpaRepository<Cliente, Long> {
@@ -21,7 +20,6 @@ public interface ClienteRepository extends JpaRepository<Cliente, Long> {
     @EntityGraph(attributePaths = "carros")
     Optional<Cliente> findWithCarrosById(Long id);
 
-    //para fins de estudo começarei adicona JPQL mesma forma que utilizo na empresa
     @Query("SELECT c FROM Cliente c LEFT JOIN FETCH c.carros WHERE c.id = :id")
     Optional<Cliente> findWithCarrosByIdQuery(@Param("id") Long id);
 

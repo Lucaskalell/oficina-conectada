@@ -1,6 +1,5 @@
 package io.github.lucaskalell.oficinaconectada.entity;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.github.lucaskalell.oficinaconectada.status.PrioridadeOrdem;
 import io.github.lucaskalell.oficinaconectada.status.StatusOrdemDeServico;

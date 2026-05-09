@@ -1,6 +1,5 @@
 package io.github.lucaskalell.oficinaconectada.controllers;
 
-
 import io.github.lucaskalell.oficinaconectada.dto.EstoqueResumoDTO;
 import io.github.lucaskalell.oficinaconectada.entity.Categoria;
 import io.github.lucaskalell.oficinaconectada.entity.Produto;
@@ -19,48 +18,34 @@ import java.util.List;
 public class EstoqueController {
     private final EstoqueService estoqueService;
 
-
     @GetMapping("/resumo")
-    public ResponseEntity<EstoqueResumoDTO> getEstoqueResumo() {
-        EstoqueResumoDTO resumo = estoqueService.getEstoqueResumo();
-        return ResponseEntity.ok(resumo);
+    public ResponseEntity<EstoqueResumoDTO> obterResumo() {
+        return ResponseEntity.ok(estoqueService.getEstoqueResumo());
     }
 
     @GetMapping("/categorias")
-    public ResponseEntity<List<Categoria>> getTodasCategorias(){
-        List<Categoria>categorias = estoqueService.listarTodasCategorias();
-        return ResponseEntity.ok(categorias);
+    public ResponseEntity<List<Categoria>> listarCategorias(){
+        return ResponseEntity.ok(estoqueService.listarTodasCategorias());
     }
 
-    @GetMapping("/categorias/{categoriaId}/subCategorias")
-    public ResponseEntity<List<SubCategoria>> getSubCategoriasPorCategoriaId(
-            @PathVariable Long categoriaId
-    ){
-        List<SubCategoria>subCategorias = estoqueService.listarSubCategoriaPorCategoriaId(categoriaId);
-        return ResponseEntity.ok(subCategorias);
+    @GetMapping("/categorias/{categoriaId}/subcategorias")
+    public ResponseEntity<List<SubCategoria>> listarSubCategorias(@PathVariable Long categoriaId){
+        return ResponseEntity.ok(estoqueService.listarSubCategoriaPorCategoriaId(categoriaId));
     }
 
-    @GetMapping("/subCategorias/{subCategoriaId}/produtos")
-    public ResponseEntity<List<Produto>>getProdutosPorSubCategoria(
-            @PathVariable Long subCategoriaId
-
-    ){
-        List<Produto>produtos = estoqueService.listarProdutosPorSubCategoriaId(subCategoriaId);
-        return ResponseEntity.ok(produtos);
+    @GetMapping("/subcategorias/{subCategoriaId}/produtos")
+    public ResponseEntity<List<Produto>> listarProdutos(@PathVariable Long subCategoriaId){
+        return ResponseEntity.ok(estoqueService.listarProdutosPorSubCategoriaId(subCategoriaId));
     }
+
     @GetMapping("/produtos/{produtoId}")
-    public ResponseEntity<Produto> getProdutoPorId(
-            @PathVariable Long produtoId
-    ) {
-        Produto produto = estoqueService.buscarProdutoPorId(produtoId);
-        return ResponseEntity.ok(produto);
+    public ResponseEntity<Produto> buscarProdutoPorId(@PathVariable Long produtoId) {
+        return ResponseEntity.ok(estoqueService.buscarProdutoPorId(produtoId));
     }
+
     @GetMapping("/produtos/buscar")
-    public ResponseEntity<List<Produto>> buscarProdutosPorNome(
-            @RequestParam String nome
-    ) {
-        List<Produto> produtos = estoqueService.buscarProdutosPorNome(nome);
-        return ResponseEntity.ok(produtos);
+    public ResponseEntity<List<Produto>> buscarProdutosPorNome(@RequestParam String nome) {
+        return ResponseEntity.ok(estoqueService.buscarProdutosPorNome(nome));
     }
 
     @PostMapping("/categorias")
@@ -83,20 +68,17 @@ public class EstoqueController {
 
     @PutMapping("/categorias/{id}")
     public ResponseEntity<Categoria> atualizarCategoria(@PathVariable Long id, @RequestBody Categoria categoriaDetails) {
-        Categoria categoriaAtualizada = estoqueService.atualizarCategoria(id, categoriaDetails);
-        return ResponseEntity.ok(categoriaAtualizada);
+        return ResponseEntity.ok(estoqueService.atualizarCategoria(id, categoriaDetails));
     }
 
     @PutMapping("/subcategorias/{id}")
     public ResponseEntity<SubCategoria> atualizarSubCategoria(@PathVariable Long id, @RequestBody SubCategoria subCategoriaDetails) {
-        SubCategoria subCategoriaAtualizada = estoqueService.atualizarSubCategoria(id, subCategoriaDetails);
-        return ResponseEntity.ok(subCategoriaAtualizada);
+        return ResponseEntity.ok(estoqueService.atualizarSubCategoria(id, subCategoriaDetails));
     }
 
     @PutMapping("/produtos/{id}")
     public ResponseEntity<Produto> atualizarProduto(@PathVariable Long id, @RequestBody Produto produtoDetails) {
-        Produto produtoAtualizado = estoqueService.atualizarProduto(id, produtoDetails);
-        return ResponseEntity.ok(produtoAtualizado);
+        return ResponseEntity.ok(estoqueService.atualizarProduto(id, produtoDetails));
     }
 
     @DeleteMapping("/categorias/{id}")

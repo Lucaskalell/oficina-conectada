@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -23,25 +22,24 @@ public class ClienteService {
 
     private final ClienteRepository clienteRepository;
     private final CarroRepository carroRepository;
-    private final ClienteMapper ClienteMapper;
-
+    private final ClienteMapper clienteMapper;
 
     @Transactional
-    public ClienteDTO criarClienteComCarro(ClienteCarroRequestDTO dto) {
+    public ClienteDTO criarClienteComCarro(ClienteCarroRequestDTO request) {
         Cliente cliente = new Cliente();
-        cliente.setNome(dto.getNome());
-        cliente.setCpf(dto.getCpf());
-        cliente.setTelefone(dto.getTelefone());
-        cliente.setEmail(dto.getEmail());
+        cliente.setNome(request.getNome());
+        cliente.setCpf(request.getCpf());
+        cliente.setTelefone(request.getTelefone());
+        cliente.setEmail(request.getEmail());
         Cliente clienteSalvo = clienteRepository.save(cliente);
 
-        if (dto.getPlaca() != null && !dto.getPlaca().isEmpty()) {
+        if (request.getPlaca() != null && !request.getPlaca().isEmpty()) {
             Carro carro = new Carro();
-            carro.setPlaca(dto.getPlaca());
-            carro.setModelo(dto.getModelo());
-            carro.setMarca(dto.getMarca());
-            carro.setCor(dto.getCor());
-            carro.setAno(dto.getAno());
+            carro.setPlaca(request.getPlaca());
+            carro.setModelo(request.getModelo());
+            carro.setMarca(request.getMarca());
+            carro.setCor(request.getCor());
+            carro.setAno(request.getAno());
             carro.setCliente(clienteSalvo);
 
             carroRepository.save(carro);
@@ -55,7 +53,7 @@ public class ClienteService {
         );
     }
 
-
+    @Transactional
     public ClienteDTO criarCliente(ClienteDTO clienteDTO) {
         Cliente cliente = new Cliente();
         cliente.setNome(clienteDTO.getNome());
@@ -129,9 +127,10 @@ public class ClienteService {
     public ClienteDTO buscarClienteECarroCompletoPorId(Long id) {
         Cliente cliente = clienteRepository.findWithCarrosByIdQuery(id)
                 .orElseThrow(() -> new ClienteNaoEncontradoException("Cliente não encontrado com o ID: " + id));
-        return ClienteMapper.toDto(cliente);
+        return clienteMapper.toDto(cliente);
     }
 
+    @Transactional
     public ClienteDTO atualizarCliente(Long id, ClienteDTO clienteAtualizado) {
         return clienteRepository.findById(id)
                 .map(cliente -> {
@@ -151,6 +150,7 @@ public class ClienteService {
                 .orElseThrow(() -> new ClienteNaoEncontradoException("Cliente não encontrado com o ID: " + id));
     }
 
+    @Transactional
     public void deletarCliente(Long id) {
         if (!clienteRepository.existsById(id)) {
             throw new ClienteNaoEncontradoException("Cliente não encontrado com o ID: " + id);

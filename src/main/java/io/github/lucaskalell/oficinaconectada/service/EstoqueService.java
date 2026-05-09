@@ -11,10 +11,10 @@ import io.github.lucaskalell.oficinaconectada.repository.ProdutoRepository;
 import io.github.lucaskalell.oficinaconectada.repository.SubCategoriaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
 
 @Service
 @RequiredArgsConstructor
@@ -32,24 +32,25 @@ public class EstoqueService {
         return subCategoriaRepository.findByCategoriaId(categoriaId);
     }
 
-   public List<Produto> listarProdutosPorSubCategoriaId(Long subCategoriaId){
+    public List<Produto> listarProdutosPorSubCategoriaId(Long subCategoriaId){
         return produtoRepository.findBySubCategoriaId(subCategoriaId);
+    }
 
-   }
-
-   public Produto buscarProdutoPorId(Long produtoId){
+    public Produto buscarProdutoPorId(Long produtoId){
         return produtoRepository.findById(produtoId)
-                .orElseThrow(()-> new RuntimeException("Produto não encontrado"+produtoId));
-   }
+                .orElseThrow(()-> new RuntimeException("Produto não encontrado: " + produtoId));
+    }
 
-   public List<Produto> buscarProdutosPorNome(String nome){
+    public List<Produto> buscarProdutosPorNome(String nome){
         return produtoRepository.findByNomeContainingIgnoreCase(nome);
-   }
+    }
 
+    @Transactional
     public Categoria criarCategoria(Categoria categoria) {
         return categoriaRepository.save(categoria);
     }
 
+    @Transactional
     public SubCategoria criarSubCategoria(SubCategoria subCategoria, Long categoriaId) {
         Categoria categoria = categoriaRepository.findById(categoriaId)
                 .orElseThrow(() -> new RuntimeException("Categoria não encontrada: " + categoriaId));
@@ -57,6 +58,7 @@ public class EstoqueService {
         return subCategoriaRepository.save(subCategoria);
     }
 
+    @Transactional
     public Produto criarProduto(Produto produto, Long subCategoriaId) {
         SubCategoria subCategoria = subCategoriaRepository.findById(subCategoriaId)
                 .orElseThrow(() -> new RuntimeException("SubCategoria não encontrada: " + subCategoriaId));
@@ -64,6 +66,7 @@ public class EstoqueService {
         return produtoRepository.save(produto);
     }
 
+    @Transactional
     public void deletarCategoria(Long id) {
         if (!categoriaRepository.existsById(id)) {
             throw new RuntimeException("Categoria não encontrada: " + id);
@@ -71,6 +74,7 @@ public class EstoqueService {
         categoriaRepository.deleteById(id);
     }
 
+    @Transactional
     public void deletarSubCategoria(Long id) {
         if (!subCategoriaRepository.existsById(id)) {
             throw new RuntimeException("SubCategoria não encontrada: " + id);
@@ -78,6 +82,7 @@ public class EstoqueService {
         subCategoriaRepository.deleteById(id);
     }
 
+    @Transactional
     public void deletarProduto(Long id) {
         if (!produtoRepository.existsById(id)) {
             throw new RuntimeException("Produto não encontrado: " + id);
@@ -85,6 +90,7 @@ public class EstoqueService {
         produtoRepository.deleteById(id);
     }
 
+    @Transactional
     public Categoria atualizarCategoria(Long id, Categoria categoriaDetails) {
         Categoria categoria = categoriaRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Categoria não encontrada: " + id));
@@ -92,6 +98,7 @@ public class EstoqueService {
         return categoriaRepository.save(categoria);
     }
 
+    @Transactional
     public SubCategoria atualizarSubCategoria(Long id, SubCategoria subCategoriaDetails) {
         SubCategoria subCategoria = subCategoriaRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("SubCategoria não encontrada: " + id));
@@ -99,6 +106,7 @@ public class EstoqueService {
         return subCategoriaRepository.save(subCategoria);
     }
 
+    @Transactional
     public Produto atualizarProduto(Long id, Produto produtoDetails) {
         Produto produto = produtoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Produto não encontrado: " + id));

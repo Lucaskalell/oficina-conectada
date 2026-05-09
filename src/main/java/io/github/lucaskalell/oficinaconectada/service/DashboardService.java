@@ -20,25 +20,25 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class DashBoardService {
+public class DashboardService {
 
-    private final OrdemDeServicoRepository osRepository;
+    private final OrdemDeServicoRepository ordemDeServicoRepository;
     private final ProdutoRepository produtoRepository;
     private final VendaRepository vendaRepository;
     private final AgendamentoRepository agendamentoRepository;
 
-    public DashBoardDTO obterResumo() {
-        DashBoardDTO dto = new DashBoardDTO();
+    public DashboardDTO obterResumo() {
+        DashboardDTO dto = new DashboardDTO();
         List<StatusOrdemDeServico> statusAbertos = Arrays.asList(
                 StatusOrdemDeServico.EM_ANDAMENTO,
                 StatusOrdemDeServico.NAO_INICIADO,
                 StatusOrdemDeServico.AGUARDANDO_PECA,
                 StatusOrdemDeServico.AGUARDANDO_RETIRADA
         );
-        dto.setOsAbertas(osRepository.countByStatusIn(statusAbertos));
-        dto.setVeiculosEmServico(osRepository.countByStatus(StatusOrdemDeServico.EM_ANDAMENTO));
+        dto.setOsAbertas(ordemDeServicoRepository.countByStatusIn(statusAbertos));
+        dto.setVeiculosEmServico(ordemDeServicoRepository.countByStatus(StatusOrdemDeServico.EM_ANDAMENTO));
         dto.setEstoqueBaixo(produtoRepository.buscarEstoqueBaixo());
-        List<OrdemDeServico> ultimasOs = osRepository.findTop4ByOrderByIdDesc();
+        List<OrdemDeServico> ultimasOs = ordemDeServicoRepository.findTop4ByOrderByIdDesc();
         List<OrdemRecenteDTO> recentesDto = ultimasOs.stream().map(os -> {
             String carro = os.getCarro() != null ? os.getCarro().getModelo() : "Veículo Indefinido";
             String cliente = os.getCliente() != null ? os.getCliente().getNome() : "Cliente Indefinido";
@@ -54,7 +54,7 @@ public class DashBoardService {
         LocalDateTime seisMesesAtras = LocalDateTime.now().minusMonths(5)
                 .with(java.time.temporal.TemporalAdjusters.firstDayOfMonth())
                 .with(java.time.LocalTime.MIN);
-        List<OrdemDeServico> osUltimos6Meses = osRepository.findByDataEntradaAfter(seisMesesAtras);
+        List<OrdemDeServico> osUltimos6Meses = ordemDeServicoRepository.findByDataEntradaAfter(seisMesesAtras);
 
         List<FaturamentoMensalDTO> graficoFaturamento = new ArrayList<>();
         List<ServicosMensalDTO> graficoServicos = new ArrayList<>();
@@ -72,8 +72,8 @@ public class DashBoardService {
                     .mapToDouble(os -> os.getValorTotal() != null ? os.getValorTotal().doubleValue() : 0.0)
                     .sum();
             String nomeMes = ym.getMonth().getDisplayName(java.time.format.TextStyle.SHORT, new Locale("pt", "BR"));
-            nomeMes = nomeMes.substring(0, 1).toUpperCase() + nomeMes.substring(1).replace(".", ""); // Ajuste estético
-            graficoFaturamento.add(new FaturamentoMensalDTO(nomeMes, receitaMes, 0.0)); // Despesa 0 por enquanto
+            nomeMes = nomeMes.substring(0, 1).toUpperCase() + nomeMes.substring(1).replace(".", "");
+            graficoFaturamento.add(new FaturamentoMensalDTO(nomeMes, receitaMes, 0.0));
             graficoServicos.add(new ServicosMensalDTO(nomeMes, totalOsConcluidas));
             if (i == 0) {
                 faturamentoAtual = receitaMes;
@@ -96,12 +96,11 @@ public class DashBoardService {
                     agenda.getDescricaoServico(),
                     cliente + " - " + carro,
                     agenda.getMecanicoResponsavel() != null ? agenda.getMecanicoResponsavel() : "A definir",
-                    agenda.getStatus().getDescricaoAgendamento()
+                    agenda.getStatus().getDescricao()
             );
         }).collect(Collectors.toList());
 
         dto.setAgendaHoje(agendaDto);
-
         dto.setFaturamentoMensal(faturamentoAtual);
         dto.setOsConcluidas(concluidasAtual);
         dto.setGraficoFaturamento(graficoFaturamento);

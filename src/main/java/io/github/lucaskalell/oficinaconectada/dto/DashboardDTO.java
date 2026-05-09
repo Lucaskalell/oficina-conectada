@@ -1,14 +1,15 @@
 package io.github.lucaskalell.oficinaconectada.dto;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Data
 @AllArgsConstructor
-public class DashBoardDTO {
+@NoArgsConstructor
+public class DashboardDTO {
     private double faturamentoMensal;
     private int osAbertas;
     private int osConcluidas;
@@ -21,7 +22,4 @@ public class DashBoardDTO {
     private List<EstoqueBaixoDTO> estoqueBaixo;
 
     private List<AgendamentoDTO> agendaHoje;
-
-
-    public DashBoardDTO() {}
 }

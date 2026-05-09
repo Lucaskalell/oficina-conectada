@@ -5,12 +5,13 @@ import lombok.Getter;
 @Getter
 public enum PrioridadeOrdem {
     BAIXA("Baixa"),
-    MEDIA("Media"),
+    MEDIA("Média"),
     ALTA("Alta"),
     URGENTE("Urgente");
 
-    private final String PrioridadeOrdem;
-    PrioridadeOrdem(String PrioridadeOrdem) {
-        this.PrioridadeOrdem = PrioridadeOrdem;
+    private final String descricao;
+
+    PrioridadeOrdem(String descricao) {
+        this.descricao = descricao;
     }
 }

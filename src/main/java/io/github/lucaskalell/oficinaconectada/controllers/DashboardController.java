@@ -1,9 +1,8 @@
 package io.github.lucaskalell.oficinaconectada.controllers;
 
-import io.github.lucaskalell.oficinaconectada.dto.DashBoardDTO;
-import io.github.lucaskalell.oficinaconectada.service.DashBoardService;
+import io.github.lucaskalell.oficinaconectada.dto.DashboardDTO;
+import io.github.lucaskalell.oficinaconectada.service.DashboardService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,12 +11,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/dashboard")
 @RequiredArgsConstructor
-public class DashBoardController {
-    @Autowired
-    private final DashBoardService dashBoardService;
+public class DashboardController {
+
+    private final DashboardService dashboardService;
 
     @GetMapping("/resumo")
-    public ResponseEntity<DashBoardDTO> getResumo() {
-        return ResponseEntity.ok(dashBoardService.obterResumo());
+    public ResponseEntity<DashboardDTO> obterResumo() {
+        return ResponseEntity.ok(dashboardService.obterResumo());
     }
 }

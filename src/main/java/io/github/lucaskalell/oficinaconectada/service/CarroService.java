@@ -6,7 +6,7 @@ import io.github.lucaskalell.oficinaconectada.entity.Carro;
 import io.github.lucaskalell.oficinaconectada.entity.Cliente;
 import io.github.lucaskalell.oficinaconectada.repository.CarroRepository;
 import io.github.lucaskalell.oficinaconectada.repository.ClienteRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,26 +14,24 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class CarroService {
 
-    @Autowired
-    private CarroRepository carroRepository;
+    private final CarroRepository carroRepository;
+    private final ClienteRepository clienteRepository;
 
-    @Autowired
-    private ClienteRepository clienteRepository;
-
-    public List<CarroDTO> todosOsCarros() {
+    public List<CarroDTO> listarTodos() {
         return carroRepository.findAll().stream()
-                .map(this::toDTO)
+                .map(this::converterParaDto)
                 .collect(Collectors.toList());
     }
 
-    public List<CarroStatusDTO> carrosComStatusDeServico() {
+    public List<CarroStatusDTO> listarComStatusDeServico() {
         return carroRepository.carrosComStatus();
     }
 
     @Transactional
-    public CarroDTO criarOCarro(CarroDTO dto) {
+    public CarroDTO criar(CarroDTO dto) {
         Cliente cliente = clienteRepository.findById(dto.getClienteId())
                 .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
 
@@ -45,11 +43,11 @@ public class CarroService {
         carro.setCliente(cliente);
 
         carro = carroRepository.save(carro);
-        return toDTO(carro);
+        return converterParaDto(carro);
     }
 
     @Transactional
-    public CarroDTO atualizarOCarro(Long id, CarroDTO dto) {
+    public CarroDTO atualizar(Long id, CarroDTO dto) {
         Carro carro = carroRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Carro não encontrado"));
 
@@ -65,14 +63,15 @@ public class CarroService {
         }
 
         carro = carroRepository.save(carro);
-        return toDTO(carro);
+        return converterParaDto(carro);
     }
 
-    public void deletarOCarro(Long id) {
+    @Transactional
+    public void deletar(Long id) {
         carroRepository.deleteById(id);
     }
 
-    private CarroDTO toDTO(Carro carro) {
+    private CarroDTO converterParaDto(Carro carro) {
         return new CarroDTO(
                 carro.getId(),
                 carro.getPlaca(),

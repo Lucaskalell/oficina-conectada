@@ -8,24 +8,32 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
     @ExceptionHandler(ClienteNaoEncontradoException.class)
-    public ResponseEntity<ErrorResponse> handleClienteNaoEncontradoException(ClienteNaoEncontradoException clientene) {
-        ErrorResponse error = new ErrorResponse(
-                clientene.getMessage(),
+    public ResponseEntity<ErrorResponse> tratarClienteNaoEncontrado(ClienteNaoEncontradoException excecao) {
+        ErrorResponse erro = new ErrorResponse(
+                excecao.getMessage(),
                 HttpStatus.NOT_FOUND.value(),
                 System.currentTimeMillis()
         );
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(erro);
     }
-
 
     @ExceptionHandler(CarroNaoEncontradoException.class)
-    public ResponseEntity<ErrorResponse> handleCarroNaoEncontradoException(CarroNaoEncontradoException cnee) {
-        ErrorResponse error = new ErrorResponse(
-                cnee.getMessage(),
+    public ResponseEntity<ErrorResponse> tratarCarroNaoEncontrado(CarroNaoEncontradoException excecao) {
+        ErrorResponse erro = new ErrorResponse(
+                excecao.getMessage(),
                 HttpStatus.NOT_FOUND.value(),
                 System.currentTimeMillis()
         );
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(erro);
     }
 
+    @ExceptionHandler(ArmazenamentoArquivoException.class)
+    public ResponseEntity<ErrorResponse> tratarArmazenamentoArquivo(ArmazenamentoArquivoException excecao) {
+        ErrorResponse erro = new ErrorResponse(
+                excecao.getMessage(),
+                HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                System.currentTimeMillis()
+        );
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(erro);
+    }
 }

@@ -2,9 +2,11 @@ package io.github.lucaskalell.oficinaconectada.dto;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class CarroDTO {
     private Long id;
     private String placa;
@@ -13,8 +15,6 @@ public class CarroDTO {
     private String cor;
     private Long clienteId;
     private String nomeCliente;
-
-    public CarroDTO() {}
 
     public CarroDTO(Long id, String placa, String modelo, Integer ano, String cor, String nomeCliente) {
         this.id = id;

@@ -55,7 +55,6 @@ public class OrdemDeServicoDTO {
         this.itens = itens;
         this.fotos = fotos;
         this.mecanicoResponsavel = mecanicoResponsavel;
-        this.prioridade = prioridade != null ? prioridade.getPrioridadeOrdem() : null;
+        this.prioridade = prioridade != null ? prioridade.getDescricao() : null;
     }
-
 }

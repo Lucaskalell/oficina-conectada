@@ -37,7 +37,6 @@ public class Produto {
     @Column(nullable = false)
     private BigDecimal precoVenda;
 
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "subcategoria_id", nullable = false)
     @JsonIgnore

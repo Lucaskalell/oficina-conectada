@@ -26,26 +26,25 @@ public class VendaService {
     }
 
     @Transactional
-    public Venda criarVenda(VendaRequestDTO vendaRequest) {
+    public Venda criarVenda(VendaRequestDTO request) {
         Venda novaVenda = new Venda();
         novaVenda.setDataVenda(LocalDateTime.now());
 
         List<ItemVenda> itensVenda = new ArrayList<>();
-        for (var itemRequest : vendaRequest.getItens()) {
-            Produto produto = produtoRepository.findById(itemRequest.getProdutoId())
-                    .orElseThrow(() -> new RuntimeException("Produto não encontrado: " + itemRequest.getProdutoId()));
+        for (var itemDTO : request.getItens()) {
+            Produto produto = produtoRepository.findById(itemDTO.getProdutoId())
+                    .orElseThrow(() -> new RuntimeException("Produto não encontrado: " + itemDTO.getProdutoId()));
 
-            if (produto.getQuantidadeEmEstoque() < itemRequest.getQuantidade()) {
+            if (produto.getQuantidadeEmEstoque() < itemDTO.getQuantidade()) {
                 throw new RuntimeException("Estoque insuficiente para o produto: " + produto.getNome());
             }
 
-            // Diminui o estoque
-            produto.setQuantidadeEmEstoque(produto.getQuantidadeEmEstoque() - itemRequest.getQuantidade());
+            produto.setQuantidadeEmEstoque(produto.getQuantidadeEmEstoque() - itemDTO.getQuantidade());
             produtoRepository.save(produto);
 
             ItemVenda itemVenda = new ItemVenda();
             itemVenda.setProduto(produto);
-            itemVenda.setQuantidade(itemRequest.getQuantidade());
+            itemVenda.setQuantidade(itemDTO.getQuantidade());
             itemVenda.setPrecoUnitario(produto.getPrecoVenda());
             itemVenda.setVenda(novaVenda);
             itensVenda.add(itemVenda);

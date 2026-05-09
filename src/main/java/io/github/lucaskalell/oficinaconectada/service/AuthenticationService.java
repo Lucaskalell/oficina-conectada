@@ -17,22 +17,21 @@ import org.springframework.stereotype.Service;
 public class AuthenticationService {
 
     private final UsuarioRepository usuarioRepository;
-    private final PasswordEncoder passwordEncoder;
+    private final PasswordEncoder codificadorSenha;
     private final JwtService jwtService;
-    private final AuthenticationManager authenticationManager;
+    private final AuthenticationManager gerenciadorAutenticacao;
 
-
-    public Usuario register(RegisterRequestDTO request) {
+    public Usuario registrar(RegisterRequestDTO request) {
         Usuario usuario = Usuario.builder()
                 .nome(request.getNome())
                 .email(request.getEmail())
-                .senha(passwordEncoder.encode(request.getSenha()))
+                .senha(codificadorSenha.encode(request.getSenha()))
                 .build();
         return usuarioRepository.save(usuario);
     }
 
     public LoginResponseDTO login(LoginRequestDTO request) {
-        authenticationManager.authenticate(
+        gerenciadorAutenticacao.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
                         request.getSenha()
@@ -42,12 +41,10 @@ public class AuthenticationService {
         var usuario = usuarioRepository.findByEmail(request.getEmail())
                 .orElseThrow();
 
-
-        var jwtToken = jwtService.generateToken(usuario);
+        var tokenJwt = jwtService.generateToken(usuario);
 
         return LoginResponseDTO.builder()
-                .token(jwtToken)
+                .token(tokenJwt)
                 .build();
     }
 }
-

@@ -1,6 +1,5 @@
 package io.github.lucaskalell.oficinaconectada.dto;
 
-
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

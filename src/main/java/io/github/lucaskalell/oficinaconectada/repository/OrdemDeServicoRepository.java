@@ -14,7 +14,6 @@ public interface OrdemDeServicoRepository extends JpaRepository<OrdemDeServico, 
     int countByStatusIn(List<StatusOrdemDeServico> statuses);
     int countByStatus(StatusOrdemDeServico status);
 
-
     List<OrdemDeServico> findTop4ByOrderByIdDesc();
     List<OrdemDeServico> findByDataEntradaAfter(LocalDateTime data);
 }

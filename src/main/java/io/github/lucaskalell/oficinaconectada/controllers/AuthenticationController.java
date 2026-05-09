@@ -20,28 +20,22 @@ public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
 
-    @PostMapping("/register")
-    public ResponseEntity<UsuarioResponseDTO> register(
-            @RequestBody RegisterRequestDTO request
-    ) {
-        Usuario usuarioRegistrado = authenticationService.register(request);
+    @PostMapping("/registrar")
+    public ResponseEntity<UsuarioResponseDTO> registrar(@RequestBody RegisterRequestDTO requisicao) {
+        Usuario usuarioRegistrado = authenticationService.registrar(requisicao);
 
-        UsuarioResponseDTO responseDto = UsuarioResponseDTO.builder()
+        UsuarioResponseDTO respostaDto = UsuarioResponseDTO.builder()
                 .id(usuarioRegistrado.getId())
                 .nome(usuarioRegistrado.getNome())
                 .email(usuarioRegistrado.getEmail())
                 .build();
 
-        return ResponseEntity.status(201).body(responseDto);
+        return ResponseEntity.status(201).body(respostaDto);
     }
 
-
     @PostMapping("/login")
-    public ResponseEntity<LoginResponseDTO> login(
-            @RequestBody LoginRequestDTO request
-    ) {
-        LoginResponseDTO response = authenticationService.login(request);
-
-        return ResponseEntity.ok(response);
+    public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginRequestDTO requisicao) {
+        LoginResponseDTO resposta = authenticationService.login(requisicao);
+        return ResponseEntity.ok(resposta);
     }
 }

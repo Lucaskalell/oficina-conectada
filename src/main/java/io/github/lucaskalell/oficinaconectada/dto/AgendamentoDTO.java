@@ -1,11 +1,12 @@
 package io.github.lucaskalell.oficinaconectada.dto;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class AgendamentoDTO {
     private String horario;
     private String servico;

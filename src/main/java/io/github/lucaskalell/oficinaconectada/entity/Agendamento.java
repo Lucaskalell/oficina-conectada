@@ -1,4 +1,5 @@
 package io.github.lucaskalell.oficinaconectada.entity;
+
 import io.github.lucaskalell.oficinaconectada.status.StatusAgendamento;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -24,7 +25,6 @@ public class Agendamento {
     @Column(nullable = false)
     private String descricaoServico;
 
-    // vou deixar o mecânico como String por enquanto para facilitar
     private String mecanicoResponsavel;
 
     @Enumerated(EnumType.STRING)

@@ -1,12 +1,14 @@
 package io.github.lucaskalell.oficinaconectada.dto;
 
-
 import lombok.Builder;
 import lombok.Data;
-import org.springframework.context.annotation.Bean;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
 @Builder
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class UsuarioResponseDTO {
     private Long id;
     private String nome;
