@@ -8,14 +8,13 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "clientes")
-public class Cliente {
+@Table(name = "mecanicos")
+public class Mecanico {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,17 +23,14 @@ public class Cliente {
     @Column(nullable = false, length = 100)
     private String nome;
 
-    @Column(unique = true, length = 14)
-    private String cpf;
-
-    @Column(length = 150)
-    private String email;
+    @Column(length = 100)
+    private String especialidade;
 
     @Column(length = 20)
     private String telefone;
 
-    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Carro> carros;
+    @Column(nullable = false)
+    private boolean ativo = true;
 
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
@@ -43,7 +39,4 @@ public class Cliente {
     @UpdateTimestamp
     @Column(nullable = false)
     private LocalDateTime updatedAt;
-
-    @Column
-    private LocalDateTime deletedAt;
 }

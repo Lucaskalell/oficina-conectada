@@ -9,5 +9,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class VendaRequestDTO {
+    private Long clienteId;
+    private Long usuarioId;
     private List<ItemVendaRequestDTO> itens;
 }

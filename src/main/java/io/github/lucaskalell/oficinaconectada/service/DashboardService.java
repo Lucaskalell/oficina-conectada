@@ -95,7 +95,7 @@ public class DashboardService {
                     horario,
                     agenda.getDescricaoServico(),
                     cliente + " - " + carro,
-                    agenda.getMecanicoResponsavel() != null ? agenda.getMecanicoResponsavel() : "A definir",
+                    agenda.getMecanico() != null ? agenda.getMecanico().getNome() : "A definir",
                     agenda.getStatus().getDescricao()
             );
         }).collect(Collectors.toList());

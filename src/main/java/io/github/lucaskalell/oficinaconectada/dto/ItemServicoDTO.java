@@ -13,5 +13,5 @@ public class ItemServicoDTO {
     private String descricao;
     private BigDecimal quantidade;
     private BigDecimal valorUnitario;
-    private BigDecimal valorTotal;
+    private Long produtoId;
 }

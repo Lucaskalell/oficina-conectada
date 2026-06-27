@@ -2,7 +2,8 @@ package io.github.lucaskalell.oficinaconectada.dto;
 
 import io.github.lucaskalell.oficinaconectada.status.PrioridadeOrdem;
 import io.github.lucaskalell.oficinaconectada.status.StatusOrdemDeServico;
-import lombok.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -20,10 +21,9 @@ public class OrdemDeServicoDTO {
     private String defeito;
     private String descricaoServico;
     private BigDecimal valorTotal;
-    private BigDecimal valorSubtotalPecas;
     private List<ItemServicoDTO> itens;
     private List<FotoOrdemDeServicoDTO> fotos;
-    private String mecanicoResponsavel;
+    private String mecanico;
     private String prioridade;
 
     public OrdemDeServicoDTO(
@@ -36,10 +36,9 @@ public class OrdemDeServicoDTO {
             String defeito,
             String descricaoServico,
             BigDecimal valorTotal,
-            BigDecimal valorSubtotalPecas,
             List<ItemServicoDTO> itens,
             List<FotoOrdemDeServicoDTO> fotos,
-            String mecanicoResponsavel,
+            String mecanico,
             PrioridadeOrdem prioridade
     ) {
         this.id = id;
@@ -51,10 +50,9 @@ public class OrdemDeServicoDTO {
         this.defeito = defeito;
         this.descricaoServico = descricaoServico;
         this.valorTotal = valorTotal;
-        this.valorSubtotalPecas = valorSubtotalPecas;
         this.itens = itens;
         this.fotos = fotos;
-        this.mecanicoResponsavel = mecanicoResponsavel;
+        this.mecanico = mecanico;
         this.prioridade = prioridade != null ? prioridade.getDescricao() : null;
     }
 }

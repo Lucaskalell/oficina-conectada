@@ -1,43 +1,40 @@
 package io.github.lucaskalell.oficinaconectada.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "itens_servico")
-public class ItemServico {
+@Table(name = "historico_status_os")
+public class HistoricoStatusOs {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String descricao;
-
-    @Column(nullable = false, precision = 10, scale = 2)
-    private BigDecimal quantidade;
-
-    @Column(nullable = false, precision = 10, scale = 2)
-    private BigDecimal valorUnitario;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ordem_de_servico_id", nullable = false)
-    @JsonIgnore
     private OrdemDeServico ordemDeServico;
 
+    @Column(length = 30)
+    private String statusAnterior;
+
+    @Column(nullable = false, length = 30)
+    private String statusNovo;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "produto_id")
-    private Produto produto;
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
+
+    @Column(length = 255)
+    private String observacao;
 
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
