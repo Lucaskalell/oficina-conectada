@@ -6,6 +6,7 @@ import io.github.lucaskalell.oficinaconectada.dto.RegisterRequestDTO;
 import io.github.lucaskalell.oficinaconectada.entity.Usuario;
 import io.github.lucaskalell.oficinaconectada.repository.UsuarioRepository;
 import io.github.lucaskalell.oficinaconectada.security.JwtService;
+import io.github.lucaskalell.oficinaconectada.status.RoleUsuario;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -26,6 +27,7 @@ public class AuthenticationService {
                 .nome(request.getNome())
                 .email(request.getEmail())
                 .senha(codificadorSenha.encode(request.getSenha()))
+                .role(request.getRole() != null ? request.getRole() : RoleUsuario.ATENDENTE)
                 .build();
         return usuarioRepository.save(usuario);
     }
