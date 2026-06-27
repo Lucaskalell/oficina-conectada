@@ -9,6 +9,7 @@ import io.github.lucaskalell.oficinaconectada.service.AuthenticationService;
 import io.github.lucaskalell.oficinaconectada.service.TokenRedefinicaoSenhaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -21,6 +22,7 @@ public class AuthenticationController {
     private final AuthenticationService authenticationService;
     private final TokenRedefinicaoSenhaService tokenRedefinicaoSenhaService;
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/registrar")
     public ResponseEntity<UsuarioResponseDTO> registrar(@RequestBody RegisterRequestDTO requisicao) {
         Usuario usuarioRegistrado = authenticationService.registrar(requisicao);

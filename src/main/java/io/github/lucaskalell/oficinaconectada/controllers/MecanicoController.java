@@ -4,6 +4,7 @@ import io.github.lucaskalell.oficinaconectada.entity.Mecanico;
 import io.github.lucaskalell.oficinaconectada.service.MecanicoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -31,17 +32,20 @@ public class MecanicoController {
         return ResponseEntity.ok(mecanicoService.buscarPorId(id));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<Mecanico> criar(@RequestBody Mecanico mecanico) {
         Mecanico criado = mecanicoService.criar(mecanico);
         return ResponseEntity.created(URI.create("/mecanicos/" + criado.getId())).body(criado);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<Mecanico> atualizar(@PathVariable Long id, @RequestBody Mecanico dados) {
         return ResponseEntity.ok(mecanicoService.atualizar(id, dados));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> desativar(@PathVariable Long id) {
         mecanicoService.desativar(id);

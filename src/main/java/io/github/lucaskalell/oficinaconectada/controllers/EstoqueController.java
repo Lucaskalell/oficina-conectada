@@ -7,6 +7,7 @@ import io.github.lucaskalell.oficinaconectada.entity.SubCategoria;
 import io.github.lucaskalell.oficinaconectada.service.EstoqueService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -81,18 +82,21 @@ public class EstoqueController {
         return ResponseEntity.ok(estoqueService.atualizarProduto(id, produtoDetails));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/categorias/{id}")
     public ResponseEntity<Void> deletarCategoria(@PathVariable Long id) {
         estoqueService.deletarCategoria(id);
         return ResponseEntity.noContent().build();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/subcategorias/{id}")
     public ResponseEntity<Void> deletarSubCategoria(@PathVariable Long id) {
         estoqueService.deletarSubCategoria(id);
         return ResponseEntity.noContent().build();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/produtos/{id}")
     public ResponseEntity<Void> deletarProduto(@PathVariable Long id) {
         estoqueService.deletarProduto(id);

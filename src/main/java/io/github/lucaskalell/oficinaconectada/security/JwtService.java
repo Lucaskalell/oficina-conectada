@@ -1,5 +1,6 @@
 package io.github.lucaskalell.oficinaconectada.security;
 
+import io.github.lucaskalell.oficinaconectada.entity.Usuario;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
@@ -28,7 +29,12 @@ public class JwtService {
     }
 
     public String generateToken(UserDetails userDetails) {
-        return generateToken(new HashMap<>(), userDetails);
+        Map<String, Object> claims = new HashMap<>();
+        if (userDetails instanceof Usuario usuario) {
+            claims.put("role", usuario.getRole().name());
+            claims.put("nome", usuario.getNome());
+        }
+        return generateToken(claims, userDetails);
     }
 
     public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
