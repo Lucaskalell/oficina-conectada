@@ -100,6 +100,14 @@ public class OrdemDeServicoService {
     }
 
     @Transactional
+    public void deletar(Long id) {
+        if (!ordemDeServicoRepository.existsById(id)) {
+            throw new RuntimeException("Ordem de serviço não encontrada");
+        }
+        ordemDeServicoRepository.deleteById(id);
+    }
+
+    @Transactional
     public void salvarFoto(Long ordemId, MultipartFile arquivoFoto) {
         OrdemDeServico os = ordemDeServicoRepository.findById(ordemId)
                 .orElseThrow(() -> new RuntimeException("Ordem de serviço não encontrada"));

@@ -29,6 +29,12 @@ public class OrdemDeServicoController {
         return ResponseEntity.status(HttpStatus.CREATED).body(novaOrdem);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletar(@PathVariable Long id) {
+        ordemDeServicoService.deletar(id);
+        return ResponseEntity.noContent().build();
+    }
+
     @PostMapping("/{id}/fotos")
     public ResponseEntity<String> uploadFoto(
             @PathVariable Long id,
