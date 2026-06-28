@@ -39,7 +39,8 @@ public class ClienteService {
             carro.setModelo(request.getModelo());
             carro.setMarca(request.getMarca());
             carro.setCor(request.getCor());
-            carro.setAno(request.getAno());
+            carro.setAno(request.getAno() != null && !request.getAno().isBlank()
+                    ? Integer.parseInt(request.getAno()) : null);
             carro.setCliente(clienteSalvo);
 
             carroRepository.save(carro);
