@@ -31,10 +31,10 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers(
                                 "/auth/login",
-                                "/auth/registrar",
                                 "/auth/solicitar-redefinicao",
                                 "/auth/redefinir-senha"
                         ).permitAll()
+                        .requestMatchers("/auth/registrar").hasRole("ADMIN")
                         .requestMatchers("/estoque/**").authenticated()
                         .anyRequest().authenticated()
                 )

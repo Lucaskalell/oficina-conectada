@@ -28,6 +28,7 @@ public class AuthenticationService {
                 .email(request.getEmail())
                 .senha(codificadorSenha.encode(request.getSenha()))
                 .role(request.getRole() != null ? request.getRole() : RoleUsuario.ATENDENTE)
+                .primeiroAcesso(true)
                 .build();
         return usuarioRepository.save(usuario);
     }
@@ -40,13 +41,22 @@ public class AuthenticationService {
                 )
         );
 
-        var usuario = usuarioRepository.findByEmail(request.getEmail())
-                .orElseThrow();
-
-        var tokenJwt = jwtService.generateToken(usuario);
+        var usuario = usuarioRepository.findByEmail(request.getEmail()).orElseThrow();
+        var token = jwtService.generateToken(usuario);
 
         return LoginResponseDTO.builder()
-                .token(tokenJwt)
+                .token(token)
+                .primeiroAcesso(usuario.isPrimeiroAcesso())
+                .role(usuario.getRole().name())
                 .build();
+    }
+
+    public void alterarSenha(String email, String novaSenha) {
+        Usuario usuario = usuarioRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+
+        usuario.setSenha(codificadorSenha.encode(novaSenha));
+        usuario.setPrimeiroAcesso(false);
+        usuarioRepository.save(usuario);
     }
 }

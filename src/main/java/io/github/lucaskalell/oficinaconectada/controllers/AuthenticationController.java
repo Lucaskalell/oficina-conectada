@@ -44,14 +44,24 @@ public class AuthenticationController {
     }
 
     @PostMapping("/solicitar-redefinicao")
-    public ResponseEntity<Void> solicitarRedefinicao(@RequestBody Map<String, String> body) {
-        tokenRedefinicaoSenhaService.gerarToken(body.get("email"));
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<Map<String, String>> solicitarRedefinicao(@RequestBody Map<String, String> body) {
+        // TODO: em produção, enviar o token por e-mail em vez de retornar no body
+        String token = tokenRedefinicaoSenhaService.gerarToken(body.get("email"));
+        return ResponseEntity.ok(Map.of("token", token));
     }
 
     @PostMapping("/redefinir-senha")
     public ResponseEntity<Void> redefinirSenha(@RequestBody Map<String, String> body) {
         tokenRedefinicaoSenhaService.redefinirSenha(body.get("token"), body.get("novaSenha"));
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/alterar-senha")
+    public ResponseEntity<Void> alterarSenha(
+            @RequestBody Map<String, String> body,
+            java.security.Principal principal
+    ) {
+        authenticationService.alterarSenha(principal.getName(), body.get("novaSenha"));
         return ResponseEntity.noContent().build();
     }
 }

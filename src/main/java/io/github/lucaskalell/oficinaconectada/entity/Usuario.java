@@ -52,6 +52,9 @@ public class Usuario implements UserDetails {
     @Column
     private LocalDateTime deletedAt;
 
+    @Column(nullable = false)
+    private boolean primeiroAcesso = true;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("ROLE_" + role.name()));

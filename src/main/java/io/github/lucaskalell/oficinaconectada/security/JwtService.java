@@ -33,6 +33,7 @@ public class JwtService {
         if (userDetails instanceof Usuario usuario) {
             claims.put("role", usuario.getRole().name());
             claims.put("nome", usuario.getNome());
+            claims.put("primeiroAcesso", usuario.isPrimeiroAcesso());
         }
         return generateToken(claims, userDetails);
     }
