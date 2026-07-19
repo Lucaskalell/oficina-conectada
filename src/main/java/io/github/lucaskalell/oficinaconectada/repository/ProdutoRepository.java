@@ -21,4 +21,13 @@ public interface ProdutoRepository extends JpaRepository<Produto, Long> {
             "FROM Produto p " +
             "WHERE p.quantidadeEmEstoque <= p.quantidadeMinima")
     List<EstoqueBaixoDTO> buscarEstoqueBaixo();
+
+    @Query("SELECT COALESCE(SUM(p.quantidadeEmEstoque), 0) FROM Produto p")
+    Long countTotalPecasEmEstoque();
+
+    @Query("SELECT COALESCE(SUM(p.quantidadeEmEstoque * p.precoCusto), 0) FROM Produto p")
+    java.math.BigDecimal sumValorTotalEstoque();
+
+    @Query("SELECT COALESCE(SUM(p.quantidadeEmEstoque * p.precoVenda), 0) FROM Produto p")
+    java.math.BigDecimal sumValorTotalVenda();
 }

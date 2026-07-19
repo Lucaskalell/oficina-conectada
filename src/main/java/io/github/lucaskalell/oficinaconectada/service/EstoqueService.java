@@ -123,25 +123,50 @@ public class EstoqueService {
     public EstoqueResumoDTO getEstoqueResumo() {
         long totalPecas = produtoRepository.count();
         long baixoEstoque = produtoRepository.countByQuantidadeEmEstoqueLessThan(10);
+        long quantidadeTotalPecasFisicas = produtoRepository.countTotalPecasEmEstoque();
+        java.math.BigDecimal valorTotalEstoque = produtoRepository.sumValorTotalEstoque();
+        java.math.BigDecimal valorTotalVenda = produtoRepository.sumValorTotalVenda();
 
         List<String> nomesProdutosMaisVendidos = itemVendaRepository.findNomeProdutoMaisVendido();
         String itemMaisVendido = nomesProdutosMaisVendidos.isEmpty() ? "Nenhuma venda registrada" : nomesProdutosMaisVendidos.get(0);
 
         List<CategoriaResumoDTO> categoriasResumo = categoriaRepository.findAll().stream()
-                .map(categoria -> new CategoriaResumoDTO(
-                        categoria.getId(),
-                        categoria.getNome(),
-                        (long) categoria.getSubCategorias().stream()
-                                .mapToLong(sub -> sub.getProdutos().size())
-                                .sum()
-                ))
+                .map(categoria -> {
+                    long quantidadePecas = categoria.getSubCategorias().stream()
+                            .flatMap(sub -> sub.getProdutos().stream())
+                            .mapToLong(Produto::getQuantidadeEmEstoque)
+                            .sum();
+
+                    java.math.BigDecimal valorTotal = categoria.getSubCategorias().stream()
+                            .flatMap(sub -> sub.getProdutos().stream())
+                            .map(p -> p.getPrecoCusto().multiply(new java.math.BigDecimal(p.getQuantidadeEmEstoque())))
+                            .reduce(java.math.BigDecimal.ZERO, java.math.BigDecimal::add);
+
+                    java.math.BigDecimal valorVendaCategoria = categoria.getSubCategorias().stream()
+                            .flatMap(sub -> sub.getProdutos().stream())
+                            .map(p -> p.getPrecoVenda().multiply(new java.math.BigDecimal(p.getQuantidadeEmEstoque())))
+                            .reduce(java.math.BigDecimal.ZERO, java.math.BigDecimal::add);
+
+                    return new CategoriaResumoDTO(
+                            categoria.getId(),
+                            categoria.getNome(),
+                            (long) categoria.getSubCategorias().stream()
+                                    .mapToInt(sub -> sub.getProdutos().size()).sum(),
+                            quantidadePecas,
+                            valorTotal,
+                            valorVendaCategoria
+                    );
+                })
                 .collect(Collectors.toList());
 
         return new EstoqueResumoDTO(
                 totalPecas,
                 itemMaisVendido,
                 baixoEstoque,
-                categoriasResumo
+                categoriasResumo,
+                quantidadeTotalPecasFisicas,
+                valorTotalEstoque,
+                valorTotalVenda
         );
     }
 }

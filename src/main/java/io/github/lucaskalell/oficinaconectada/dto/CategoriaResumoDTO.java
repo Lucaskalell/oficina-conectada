@@ -11,4 +11,7 @@ public class CategoriaResumoDTO {
     private Long id;
     private String nome;
     private Long totalItens;
+    private Long quantidadePecas;
+    private java.math.BigDecimal valorTotal;
+    private java.math.BigDecimal valorTotalVenda;
 }

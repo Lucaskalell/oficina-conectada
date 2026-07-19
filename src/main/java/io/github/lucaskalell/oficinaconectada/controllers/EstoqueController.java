@@ -31,6 +31,7 @@ public class EstoqueController {
 
     @GetMapping("/categorias/{categoriaId}/subcategorias")
     public ResponseEntity<List<SubCategoria>> listarSubCategorias(@PathVariable Long categoriaId){
+        System.out.println(">>> [BACKEND] CHEGOU REQUISIÇÃO LISTAR SUBCATEGORIAS DA CATEGORIA: " + categoriaId);
         return ResponseEntity.ok(estoqueService.listarSubCategoriaPorCategoriaId(categoriaId));
     }
 

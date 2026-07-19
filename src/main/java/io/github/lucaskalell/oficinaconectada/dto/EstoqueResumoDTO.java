@@ -14,4 +14,7 @@ public class EstoqueResumoDTO {
         private String itemMaisVendido;
         private Long itensBaixoEstoque;
         private List<CategoriaResumoDTO> categorias;
+        private Long quantidadeTotalPecasFisicas;
+        private java.math.BigDecimal valorTotalEstoque;
+        private java.math.BigDecimal valorTotalVenda;
 }
