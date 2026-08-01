@@ -1,6 +1,8 @@
 package io.github.lucaskalell.oficinaconectada.controllers;
 
-import io.github.lucaskalell.oficinaconectada.entity.Mecanico;
+import io.github.lucaskalell.oficinaconectada.dto.MecanicoRequestDTO;
+import io.github.lucaskalell.oficinaconectada.dto.MecanicoResponseDTO;
+import io.github.lucaskalell.oficinaconectada.dto.MecanicoUpdateDTO;
 import io.github.lucaskalell.oficinaconectada.service.MecanicoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,30 +20,30 @@ public class MecanicoController {
     private final MecanicoService mecanicoService;
 
     @GetMapping
-    public ResponseEntity<List<Mecanico>> listarAtivos() {
+    public ResponseEntity<List<MecanicoResponseDTO>> listarAtivos() {
         return ResponseEntity.ok(mecanicoService.listarAtivos());
     }
 
     @GetMapping("/todos")
-    public ResponseEntity<List<Mecanico>> listarTodos() {
+    public ResponseEntity<List<MecanicoResponseDTO>> listarTodos() {
         return ResponseEntity.ok(mecanicoService.listarTodos());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Mecanico> buscarPorId(@PathVariable Long id) {
+    public ResponseEntity<MecanicoResponseDTO> buscarPorId(@PathVariable Long id) {
         return ResponseEntity.ok(mecanicoService.buscarPorId(id));
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
-    public ResponseEntity<Mecanico> criar(@RequestBody Mecanico mecanico) {
-        Mecanico criado = mecanicoService.criar(mecanico);
+    public ResponseEntity<MecanicoResponseDTO> criar(@RequestBody MecanicoRequestDTO dados) {
+        MecanicoResponseDTO criado = mecanicoService.criar(dados);
         return ResponseEntity.created(URI.create("/mecanicos/" + criado.getId())).body(criado);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
-    public ResponseEntity<Mecanico> atualizar(@PathVariable Long id, @RequestBody Mecanico dados) {
+    public ResponseEntity<MecanicoResponseDTO> atualizar(@PathVariable Long id, @RequestBody MecanicoUpdateDTO dados) {
         return ResponseEntity.ok(mecanicoService.atualizar(id, dados));
     }
 
