@@ -1,6 +1,6 @@
 package io.github.lucaskalell.oficinaconectada.controllers;
 
-import io.github.lucaskalell.oficinaconectada.entity.Agendamento;
+import io.github.lucaskalell.oficinaconectada.dto.AgendamentoResponseDTO;
 import io.github.lucaskalell.oficinaconectada.service.AgendamentoService;
 import io.github.lucaskalell.oficinaconectada.status.StatusAgendamento;
 import lombok.RequiredArgsConstructor;
@@ -21,12 +21,12 @@ public class AgendamentoController {
     private final AgendamentoService agendamentoService;
 
     @GetMapping
-    public ResponseEntity<List<Agendamento>> listarTodos() {
+    public ResponseEntity<List<AgendamentoResponseDTO>> listarTodos() {
         return ResponseEntity.ok(agendamentoService.listarTodos());
     }
 
     @GetMapping("/periodo")
-    public ResponseEntity<List<Agendamento>> listarPorPeriodo(
+    public ResponseEntity<List<AgendamentoResponseDTO>> listarPorPeriodo(
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime inicio,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime fim
     ) {
@@ -34,24 +34,24 @@ public class AgendamentoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Agendamento> buscarPorId(@PathVariable Long id) {
+    public ResponseEntity<AgendamentoResponseDTO> buscarPorId(@PathVariable Long id) {
         return ResponseEntity.ok(agendamentoService.buscarPorId(id));
     }
 
     @PostMapping
-    public ResponseEntity<Agendamento> criar(@RequestBody Map<String, Object> body) {
+    public ResponseEntity<AgendamentoResponseDTO> criar(@RequestBody Map<String, Object> body) {
         Long clienteId = Long.valueOf(body.get("clienteId").toString());
         Long carroId = Long.valueOf(body.get("carroId").toString());
         Long mecanicoId = body.get("mecanicoId") != null ? Long.valueOf(body.get("mecanicoId").toString()) : null;
         LocalDateTime dataHora = LocalDateTime.parse(body.get("dataHora").toString());
         String descricaoServico = body.get("descricaoServico").toString();
 
-        Agendamento criado = agendamentoService.criar(clienteId, carroId, mecanicoId, dataHora, descricaoServico);
+        AgendamentoResponseDTO criado = agendamentoService.criar(clienteId, carroId, mecanicoId, dataHora, descricaoServico);
         return ResponseEntity.created(URI.create("/agendamentos/" + criado.getId())).body(criado);
     }
 
     @PatchMapping("/{id}/status")
-    public ResponseEntity<Agendamento> atualizarStatus(
+    public ResponseEntity<AgendamentoResponseDTO> atualizarStatus(
             @PathVariable Long id,
             @RequestParam StatusAgendamento status
     ) {

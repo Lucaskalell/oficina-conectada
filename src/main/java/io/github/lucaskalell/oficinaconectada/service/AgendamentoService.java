@@ -1,5 +1,6 @@
 package io.github.lucaskalell.oficinaconectada.service;
 
+import io.github.lucaskalell.oficinaconectada.dto.AgendamentoResponseDTO;
 import io.github.lucaskalell.oficinaconectada.entity.Agendamento;
 import io.github.lucaskalell.oficinaconectada.entity.Carro;
 import io.github.lucaskalell.oficinaconectada.entity.Cliente;
@@ -25,21 +26,24 @@ public class AgendamentoService {
     private final CarroRepository carroRepository;
     private final MecanicoRepository mecanicoRepository;
 
-    public List<Agendamento> listarTodos() {
-        return agendamentoRepository.findAll();
+    public List<AgendamentoResponseDTO> listarTodos() {
+        return agendamentoRepository.findAll().stream()
+                .map(AgendamentoResponseDTO::fromEntity)
+                .toList();
     }
 
-    public List<Agendamento> listarPorPeriodo(LocalDateTime inicio, LocalDateTime fim) {
-        return agendamentoRepository.findByDataHoraBetweenOrderByDataHoraAsc(inicio, fim);
+    public List<AgendamentoResponseDTO> listarPorPeriodo(LocalDateTime inicio, LocalDateTime fim) {
+        return agendamentoRepository.findByDataHoraBetweenOrderByDataHoraAsc(inicio, fim).stream()
+                .map(AgendamentoResponseDTO::fromEntity)
+                .toList();
     }
 
-    public Agendamento buscarPorId(Long id) {
-        return agendamentoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Agendamento não encontrado: " + id));
+    public AgendamentoResponseDTO buscarPorId(Long id) {
+        return AgendamentoResponseDTO.fromEntity(buscarEntidadePorId(id));
     }
 
     @Transactional
-    public Agendamento criar(Long clienteId, Long carroId, Long mecanicoId, LocalDateTime dataHora, String descricaoServico) {
+    public AgendamentoResponseDTO criar(Long clienteId, Long carroId, Long mecanicoId, LocalDateTime dataHora, String descricaoServico) {
         Cliente cliente = clienteRepository.findById(clienteId)
                 .orElseThrow(() -> new RuntimeException("Cliente não encontrado: " + clienteId));
 
@@ -64,14 +68,14 @@ public class AgendamentoService {
         agendamento.setDescricaoServico(descricaoServico);
         agendamento.setStatus(StatusAgendamento.AGENDADO);
 
-        return agendamentoRepository.save(agendamento);
+        return AgendamentoResponseDTO.fromEntity(agendamentoRepository.save(agendamento));
     }
 
     @Transactional
-    public Agendamento atualizarStatus(Long id, StatusAgendamento novoStatus) {
-        Agendamento agendamento = buscarPorId(id);
+    public AgendamentoResponseDTO atualizarStatus(Long id, StatusAgendamento novoStatus) {
+        Agendamento agendamento = buscarEntidadePorId(id);
         agendamento.setStatus(novoStatus);
-        return agendamentoRepository.save(agendamento);
+        return AgendamentoResponseDTO.fromEntity(agendamentoRepository.save(agendamento));
     }
 
     @Transactional
@@ -80,5 +84,10 @@ public class AgendamentoService {
             throw new RuntimeException("Agendamento não encontrado: " + id);
         }
         agendamentoRepository.deleteById(id);
+    }
+
+    private Agendamento buscarEntidadePorId(Long id) {
+        return agendamentoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Agendamento não encontrado: " + id));
     }
 }
