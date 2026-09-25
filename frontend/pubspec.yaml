@@ -1,0 +1,46 @@
+name: oficina_conectada_front
+description: "Gestor de oficinas (Spring Boot + Flutter) focado na experiência do cliente, com estimativas de tempo e notificações de status via API."
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.9.2
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.8
+
+
+  http: ^1.2.1
+
+  shared_preferences: ^2.2.3
+  flutter_secure_storage: ^9.2.4
+  
+  flutter_bloc: ^8.1.6
+  equatable: ^2.0.5
+  syncfusion_flutter_charts: ^26.0.0
+  mask_text_input_formatter: ^2.9.0
+  file_picker: ^10.3.10
+  dotted_border: ^3.1.0
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+
+  # fonts:
+  #   - family: Schyler
+  #     fonts:
+  #       - asset: fonts/Schyler-Regular.ttf
+  #       - asset: fonts/Schyler-Italic.ttf
+  #         style: italic
