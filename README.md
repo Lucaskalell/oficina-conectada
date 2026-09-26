@@ -36,7 +36,7 @@ flowchart LR
 
 ## Segurança
 
-- Três perfis: `ADMIN`, `ATENDENTE` e `MECANICO`. Só o admin cadastra novos usuários.
+- Três perfis: `ADMIN`, `ATENDENTE` e `MECANICO`. Ações sensíveis ficam restritas ao admin com `@PreAuthorize`: cadastrar usuários, gerenciar mecânicos, excluir clientes e excluir itens do estoque.
 - Todas as rotas exigem token, exceto login e redefinição de senha.
 - A redefinição de senha nunca revela se um e-mail está cadastrado: a API responde da mesma forma nos dois casos. O código vai por e-mail, vale por uma hora e só pode ser usado uma vez. No banco fica apenas o hash SHA-256 do código.
 - O primeiro administrador é criado na inicialização com a senha de `ADMIN_SENHA_INICIAL`. Sem essa variável, a senha é gerada aleatoriamente e aparece uma única vez no log. Nos dois casos a troca é obrigatória no primeiro acesso.
