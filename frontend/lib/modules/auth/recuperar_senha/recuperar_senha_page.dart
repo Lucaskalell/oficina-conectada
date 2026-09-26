@@ -99,7 +99,7 @@ class _RecuperarSenhaPageState extends State<RecuperarSenhaPage> {
         const SizedBox(height: 8),
         Text(
           _etapaToken
-              ? 'Insira o código recebido e sua nova senha.'
+              ? 'Insira o código enviado para o seu e-mail e a nova senha.'
               : 'Informe seu e-mail para receber o código de recuperação.',
           textAlign: TextAlign.center,
           style: const TextStyle(color: Colors.white70, fontSize: 13),
@@ -266,12 +266,9 @@ class _RecuperarSenhaPageState extends State<RecuperarSenhaPage> {
       bloc: _recuperarSenhaBloc,
       listener: (context, estado) {
         if (estado is TokenEnviado) {
-          setState(() {
-            _etapaToken = true;
-            _tokenController.text = estado.token;
-          });
+          setState(() => _etapaToken = true);
           CustomToast.show(context,
-              message: 'Código gerado! Verifique o campo abaixo.',
+              message: 'Se o e-mail estiver cadastrado, você receberá um código em instantes.',
               type: ToastType.sucesso);
         }
         if (estado is SenhaRedefinida) {

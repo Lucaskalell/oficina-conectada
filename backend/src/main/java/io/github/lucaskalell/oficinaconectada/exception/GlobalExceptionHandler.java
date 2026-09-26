@@ -27,6 +27,16 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(erro);
     }
 
+    @ExceptionHandler(TokenRedefinicaoInvalidoException.class)
+    public ResponseEntity<ErrorResponse> tratarTokenRedefinicaoInvalido(TokenRedefinicaoInvalidoException excecao) {
+        ErrorResponse erro = new ErrorResponse(
+                excecao.getMessage(),
+                HttpStatus.BAD_REQUEST.value(),
+                System.currentTimeMillis()
+        );
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erro);
+    }
+
     @ExceptionHandler(ArmazenamentoArquivoException.class)
     public ResponseEntity<ErrorResponse> tratarArmazenamentoArquivo(ArmazenamentoArquivoException excecao) {
         ErrorResponse erro = new ErrorResponse(

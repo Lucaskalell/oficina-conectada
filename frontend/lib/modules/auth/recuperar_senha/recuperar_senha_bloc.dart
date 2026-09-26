@@ -17,10 +17,10 @@ class RecuperarSenhaBloc extends Bloc<RecuperarSenhaEvent, RecuperarSenhaState> 
   ) async {
     emit(RecuperarSenhaCarregando());
     try {
-      final token = await _recuperarSenhaService.solicitarToken(evento.email);
-      emit(TokenEnviado(token));
+      await _recuperarSenhaService.solicitarToken(evento.email);
+      emit(TokenEnviado());
     } catch (e) {
-      emit(RecuperarSenhaErro(e.toString()));
+      emit(RecuperarSenhaErro(e.toString().replaceFirst('Exception: ', '')));
     }
   }
 
@@ -33,7 +33,7 @@ class RecuperarSenhaBloc extends Bloc<RecuperarSenhaEvent, RecuperarSenhaState> 
       await _recuperarSenhaService.redefinirSenha(evento.token, evento.novaSenha);
       emit(SenhaRedefinida());
     } catch (e) {
-      emit(RecuperarSenhaErro(e.toString()));
+      emit(RecuperarSenhaErro(e.toString().replaceFirst('Exception: ', '')));
     }
   }
 }

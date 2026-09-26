@@ -2,6 +2,7 @@ package io.github.lucaskalell.oficinaconectada.service;
 
 import io.github.lucaskalell.oficinaconectada.entity.TokenRedefinicaoSenha;
 import io.github.lucaskalell.oficinaconectada.entity.Usuario;
+import io.github.lucaskalell.oficinaconectada.exception.TokenRedefinicaoInvalidoException;
 import io.github.lucaskalell.oficinaconectada.repository.TokenRedefinicaoSenhaRepository;
 import io.github.lucaskalell.oficinaconectada.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
@@ -9,45 +10,51 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
+import java.util.HexFormat;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class TokenRedefinicaoSenhaService {
 
+    private static final long HORAS_VALIDADE_TOKEN = 1;
+
     private final TokenRedefinicaoSenhaRepository tokenRepository;
     private final UsuarioRepository usuarioRepository;
     private final PasswordEncoder passwordEncoder;
+    private final EnvioEmailService envioEmailService;
 
     @Transactional
-    public String gerarToken(String email) {
-        Usuario usuario = usuarioRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+    public void solicitarRedefinicao(String email) {
+        usuarioRepository.findByEmail(email).ifPresent(usuario -> {
+            String token = UUID.randomUUID().toString();
 
-        String token = UUID.randomUUID().toString();
+            TokenRedefinicaoSenha entidade = new TokenRedefinicaoSenha();
+            entidade.setUsuario(usuario);
+            entidade.setToken(gerarHash(token));
+            entidade.setExpiresAt(LocalDateTime.now().plusHours(HORAS_VALIDADE_TOKEN));
+            entidade.setUsed(false);
+            tokenRepository.save(entidade);
 
-        TokenRedefinicaoSenha entidade = new TokenRedefinicaoSenha();
-        entidade.setUsuario(usuario);
-        entidade.setToken(token);
-        entidade.setExpiresAt(LocalDateTime.now().plusHours(1));
-        entidade.setUsed(false);
-
-        tokenRepository.save(entidade);
-        return token;
+            envioEmailService.enviarTokenRedefinicaoSenha(usuario.getEmail(), token);
+        });
     }
 
     @Transactional
     public void redefinirSenha(String token, String novaSenha) {
-        TokenRedefinicaoSenha entidade = tokenRepository.findByToken(token)
-                .orElseThrow(() -> new RuntimeException("Token inválido"));
+        TokenRedefinicaoSenha entidade = tokenRepository.findByToken(gerarHash(token))
+                .orElseThrow(() -> new TokenRedefinicaoInvalidoException("Código inválido"));
 
         if (entidade.isUsed()) {
-            throw new RuntimeException("Token já utilizado");
+            throw new TokenRedefinicaoInvalidoException("Código já utilizado");
         }
 
         if (entidade.getExpiresAt().isBefore(LocalDateTime.now())) {
-            throw new RuntimeException("Token expirado");
+            throw new TokenRedefinicaoInvalidoException("Código expirado");
         }
 
         Usuario usuario = entidade.getUsuario();
@@ -56,5 +63,14 @@ public class TokenRedefinicaoSenhaService {
 
         entidade.setUsed(true);
         tokenRepository.save(entidade);
+    }
+
+    private String gerarHash(String token) {
+        try {
+            byte[] hash = MessageDigest.getInstance("SHA-256").digest(token.getBytes(StandardCharsets.UTF_8));
+            return HexFormat.of().formatHex(hash);
+        } catch (NoSuchAlgorithmException e) {
+            throw new IllegalStateException(e);
+        }
     }
 }

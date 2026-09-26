@@ -3,18 +3,15 @@ import 'package:http/http.dart' as http;
 import 'package:oficina_conectada_front/core/constants/api_constants.dart';
 
 class RecuperarSenhaService {
-  Future<String> solicitarToken(String email) async {
+  Future<void> solicitarToken(String email) async {
     final resposta = await http.post(
       Uri.parse('${ApiConstants.baseUrl}/auth/solicitar-redefinicao'),
       headers: {'Content-Type': 'application/json; charset=UTF-8'},
       body: jsonEncode({'email': email}),
     );
 
-    if (resposta.statusCode == 200) {
-      final dados = json.decode(resposta.body);
-      return dados['token'] as String;
-    } else {
-      throw Exception('E-mail não encontrado');
+    if (resposta.statusCode != 202) {
+      throw Exception('Não foi possível solicitar a redefinição. Tente novamente.');
     }
   }
 
@@ -27,7 +24,7 @@ class RecuperarSenhaService {
 
     if (resposta.statusCode != 204) {
       final corpo = json.decode(resposta.body);
-      throw Exception(corpo['message'] ?? 'Token inválido ou expirado');
+      throw Exception(corpo['mensagem'] ?? 'Código inválido ou expirado');
     }
   }
 }

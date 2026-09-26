@@ -11,14 +11,7 @@ class RecuperarSenhaInicial extends RecuperarSenhaState {}
 
 class RecuperarSenhaCarregando extends RecuperarSenhaState {}
 
-class TokenEnviado extends RecuperarSenhaState {
-  final String token;
-
-  const TokenEnviado(this.token);
-
-  @override
-  List<Object?> get props => [token];
-}
+class TokenEnviado extends RecuperarSenhaState {}
 
 class SenhaRedefinida extends RecuperarSenhaState {}
 
