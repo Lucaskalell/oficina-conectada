@@ -37,8 +37,9 @@ class _MecanicosPageState extends State<MecanicosPage> {
   String _iniciais(String nome) {
     if (nome.isEmpty) return '??';
     final partes = nome.trim().split(' ');
-    if (partes.length >= 2)
+    if (partes.length >= 2) {
       return '${partes.first[0]}${partes.last[0]}'.toUpperCase();
+    }
     return partes.first
         .substring(0, partes.first.length > 1 ? 2 : 1)
         .toUpperCase();

@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
-import 'package:oficina_conectada_front/core/api/ApiClient.dart';
+import 'package:oficina_conectada_front/core/api/api_client.dart';
 import 'package:oficina_conectada_front/modules/dashboard/dashboard_model.dart';
 
 class DashboardService {

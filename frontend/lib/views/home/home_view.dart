@@ -22,7 +22,6 @@ class _HomeViewState extends State<HomeView> {
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  // Cores herdadas da classe ColorsApp para manter consistência
   final Color _bgDark = ColorsApp.bgDark;
   final Color _sidebarDark = ColorsApp.preto;
   final Color _cardDark = ColorsApp.cardDark;
@@ -100,7 +99,7 @@ class _HomeViewState extends State<HomeView> {
       elevation: 0,
       iconTheme: IconThemeData(color: _textMuted),
       shape: Border(
-        bottom: BorderSide(color: Colors.white.withOpacity(0.05), width: 1),
+        bottom: BorderSide(color: Colors.white.withValues(alpha: 0.05), width: 1),
       ),
       actions: [
         IconButton(
@@ -147,7 +146,7 @@ class _HomeViewState extends State<HomeView> {
       color: _cardDark,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8),
-        side: BorderSide(color: Colors.white.withOpacity(0.1)),
+        side: BorderSide(color: Colors.white.withValues(alpha: 0.1)),
       ),
       child: CircleAvatar(
         radius: 16,
@@ -182,7 +181,7 @@ class _HomeViewState extends State<HomeView> {
                   Container(
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: _primaryColor.withOpacity(0.15),
+                      color: _primaryColor.withValues(alpha: 0.15),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Icon(Icons.build, color: _primaryColor, size: 20),
@@ -209,7 +208,7 @@ class _HomeViewState extends State<HomeView> {
               ),
             ),
           ),
-          Divider(color: Colors.white.withOpacity(0.05), height: 1),
+          Divider(color: Colors.white.withValues(alpha: 0.05), height: 1),
           Expanded(
             child: ListView(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
@@ -240,7 +239,7 @@ class _HomeViewState extends State<HomeView> {
               ],
             ),
           ),
-          Divider(color: Colors.white.withOpacity(0.05), height: 1),
+          Divider(color: Colors.white.withValues(alpha: 0.05), height: 1),
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Row(
@@ -296,7 +295,7 @@ class _HomeViewState extends State<HomeView> {
       child: Text(
         title,
         style: TextStyle(
-          color: _textMuted.withOpacity(0.5),
+          color: _textMuted.withValues(alpha: 0.5),
           fontSize: 11,
           fontWeight: FontWeight.bold,
           letterSpacing: 1.2,
@@ -327,12 +326,12 @@ class _HomeViewState extends State<HomeView> {
           ),
         ),
         tileColor: isSelected ? _cardDark : Colors.transparent,
-        hoverColor: _cardDark.withOpacity(0.5),
+        hoverColor: _cardDark.withValues(alpha: 0.5),
         trailing: badge != null
             ? Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                 decoration: BoxDecoration(
-                  color: _primaryColor.withOpacity(0.15),
+                  color: _primaryColor.withValues(alpha: 0.15),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Text(
@@ -367,7 +366,7 @@ class _HomeViewState extends State<HomeView> {
                   gradient: LinearGradient(
                     begin: Alignment.bottomCenter,
                     end: Alignment.topCenter,
-                    colors: [Colors.black.withOpacity(0.9), Colors.transparent],
+                    colors: [Colors.black.withValues(alpha: 0.9), Colors.transparent],
                   ),
                 ),
                 alignment: Alignment.bottomLeft,
@@ -408,7 +407,7 @@ class _HomeViewState extends State<HomeView> {
                 VerticalDivider(
                   thickness: 1,
                   width: 1,
-                  color: Colors.white.withOpacity(0.05),
+                  color: Colors.white.withValues(alpha: 0.05),
                 ),
                 Expanded(child: _buildBody()),
               ],

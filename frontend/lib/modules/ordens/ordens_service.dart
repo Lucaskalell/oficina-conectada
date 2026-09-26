@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:oficina_conectada_front/constants/api_constants.dart';
-import 'package:oficina_conectada_front/core/api/ApiClient.dart';
+import 'package:oficina_conectada_front/core/api/api_client.dart';
 import 'package:oficina_conectada_front/models/cliente_model.dart';
 import 'package:oficina_conectada_front/modules/ordens/ordens_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';

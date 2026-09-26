@@ -63,7 +63,7 @@ class CardTabAnimatedState extends State<CardTabAnimated> {
       decoration: BoxDecoration(
         color: ColorsApp.preto,
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: ColorsApp.branco.withOpacity(0.1)),
+        border: Border.all(color: ColorsApp.branco.withValues(alpha: 0.1)),
       ),
       child: Column(children: [_buildHeader(), _buildContent()]),
     );

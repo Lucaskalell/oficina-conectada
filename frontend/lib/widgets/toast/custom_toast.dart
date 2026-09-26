@@ -122,10 +122,10 @@ class _ToastAnimationState extends State<_ToastAnimation>
             decoration: BoxDecoration(
               color: const Color(0xFF1E1E1E),
               borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: borderColor.withOpacity(0.5), width: 1),
+              border: Border.all(color: borderColor.withValues(alpha: 0.5), width: 1),
               boxShadow: [
                 BoxShadow(
-                  color: ColorsApp.preto.withOpacity(0.5),
+                  color: ColorsApp.preto.withValues(alpha: 0.5),
                   blurRadius: 20,
                   offset: const Offset(0, 10),
                 ),

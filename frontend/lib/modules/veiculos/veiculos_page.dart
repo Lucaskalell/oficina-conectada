@@ -186,9 +186,13 @@ class _VeiculosPageState extends State<VeiculosPage> {
     int emServico = 0, aguardando = 0, disponivel = 0;
     for (final item in frota) {
       final chave = _statusUi(item.status)['chave'] as String;
-      if (chave == 'em_servico') emServico++;
-      else if (chave == 'aguardando') aguardando++;
-      else disponivel++;
+      if (chave == 'em_servico') {
+        emServico++;
+      } else if (chave == 'aguardando') {
+        aguardando++;
+      } else {
+        disponivel++;
+      }
     }
 
     return Padding(
@@ -243,9 +247,13 @@ class _VeiculosPageState extends State<VeiculosPage> {
     int emServico = 0, aguardando = 0, disponivel = 0;
     for (final item in frota) {
       final chave = _statusUi(item.status)['chave'] as String;
-      if (chave == 'em_servico') emServico++;
-      else if (chave == 'aguardando') aguardando++;
-      else disponivel++;
+      if (chave == 'em_servico') {
+        emServico++;
+      } else if (chave == 'aguardando') {
+        aguardando++;
+      } else {
+        disponivel++;
+      }
     }
 
     return Padding(

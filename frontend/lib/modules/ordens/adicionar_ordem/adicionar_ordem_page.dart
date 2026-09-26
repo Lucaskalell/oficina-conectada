@@ -443,7 +443,7 @@ class _AdicionarOrdemPageState extends State<AdicionarOrdemPage> {
                           children: [
                             _construirLabelInput('Prioridade'),
                             DropdownButtonFormField<String>(
-                              value: _prioridadeSelecionada,
+                              initialValue: _prioridadeSelecionada,
                               dropdownColor: AppColors.fundoCard,
                               style: const TextStyle(color: Colors.white, fontSize: 13),
                               decoration: _decoracaoInput('Selecionar'),
