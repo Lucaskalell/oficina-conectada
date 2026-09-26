@@ -4,6 +4,8 @@
 
 Sistema de gestão para oficinas mecânicas: ordens de serviço, clientes e veículos, estoque de peças, vendas, agendamentos e equipe de mecânicos. API em Spring Boot com MySQL e um app Flutter que roda na web e no celular.
 
+> **English summary:** Oficina Conectada is a management system for auto repair shops covering work orders, customers and vehicles, parts inventory, sales, scheduling and mechanics. It has a Spring Boot REST API with JWT authentication, role-based access, MySQL and Flyway migrations, plus a Flutter app for web and mobile using BLoC. Code and docs are in Portuguese.
+
 > **Sobre este projeto.** Comecei a Oficina Conectada em outubro de 2025, ainda na fase de estudos, e mantenho como registro da minha evolução. Ele recebe atualizações conforme aprendo coisas novas, então algumas partes ainda refletem decisões mais antigas, e o histórico de commits mostra esse caminho. Não tem fins comerciais.
 
 ## Estrutura
